@@ -32,7 +32,7 @@ const appRoutes: Routes = [
     pathMatch: 'full'
   },
   { path: 'members', component: MembersComponent },
-  { path: 'member/:id', component: MemberDetailComponent },
+  { path: 'members/:id', component: MemberDetailComponent },
   { path: 'teams', component: TeamsComponent },
   { path: 'areas', component: AreasComponent },
   { path: '**', component: PageNotFoundComponent }
