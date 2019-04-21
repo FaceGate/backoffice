@@ -11,8 +11,9 @@
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-actions class="action-container">
-    <div>
+    <div class="button-container">
       <button [routerLink]="['/members', member.id]" mat-stroked-button color="primary">Details</button>
+      <button mat-stroked-button color="primary">Remove</button>
     </div>
     <div>
       <mat-slide-toggle color="primary" [checked]="member.is_active"></mat-slide-toggle>
