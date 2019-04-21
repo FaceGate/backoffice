@@ -1,3 +1,5 @@
-<p>
-  teams works!
-</p>
+<div id="content-wrapper">
+    <section class="cards">
+        <app-team-card *ngFor="let team of teams" [team]="team"></app-team-card>
+    </section>
+</div>
