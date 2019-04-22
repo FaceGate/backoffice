@@ -1,10 +1,84 @@
 <div class="page-container">
+
   <div class="page-content">
-    <mat-toolbar>
+
+    <mat-toolbar class="member-detail-toolbar">
       <button [routerLink]="['/members']" mat-icon-button>
         <mat-icon aria-label="Back to members list">arrow_back</mat-icon>
       </button>
-      <span class="member-detail-title">Member Detail</span>
     </mat-toolbar>
+
+    <div class="member-detail-form">
+
+      <div class="member-detail-images">
+        <ul>
+          <li>
+            <img
+              src="https://res.cloudinary.com/idemo/image/upload/ar_355:247,c_fill,dpr_1.0,e_sharpen:200,g_faces,w_400/acawlogklkb3v38cjubg.jpg">
+            <button class="image-remove" mat-mini-fab color="warn">
+              <mat-icon aria-label="Remove image">close</mat-icon>
+            </button>
+          </li>
+          <li>
+            <img
+              src="https://res.cloudinary.com/idemo/image/upload/ar_355:247,c_fill,dpr_1.0,e_sharpen:200,g_faces,w_400/acawlogklkb3v38cjubg.jpg">
+            <button class="image-remove" mat-mini-fab color="warn">
+              <mat-icon aria-label="Remove image">close</mat-icon>
+            </button>
+          </li>
+          <li>
+            <img
+              src="https://res.cloudinary.com/idemo/image/upload/ar_355:247,c_fill,dpr_1.0,e_sharpen:200,g_faces,w_400/acawlogklkb3v38cjubg.jpg">
+            <button class="image-remove" mat-mini-fab color="warn">
+              <mat-icon aria-label="Remove image">close</mat-icon>
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <mat-form-field>
+        <input matInput placeholder="First Name" [(ngModel)]="member.first_name">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Last Name" [(ngModel)]="member.last_name">
+      </mat-form-field>
+
+      <!--
+      <mat-form-field>
+        <mat-label>Teams</mat-label>
+        <mat-select multiple>
+          <mat-option *ngFor="let team of member.teams" [value]="team">{{ team.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      -->
+
+      <mat-form-field class="example-chip-list">
+        <mat-chip-list #chipList>
+          <mat-chip *ngFor="let team of teams" [selectable]="true" [removable]="true" (removed)="remove(team)">
+            {{team.name}}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+          <input placeholder="Add team ..." #teamInput [formControl]="teamCtrl" [matAutocomplete]="auto"
+            [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="select($event)">
+          <mat-option *ngFor="let team of filteredTeams | async" [value]="team">
+            {{team.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker" placeholder="Expiration Date">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <button mat-stroked-button color="primary">Save</button>
+    </div>
+
   </div>
+
 </div>
