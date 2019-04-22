@@ -14,7 +14,8 @@ import {
   MatListModule,
   MatCardModule,
   MatChipsModule,
-  MatSlideToggleModule
+  MatSlideToggleModule,
+  MatRippleModule
 } from '@angular/material';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { MembersComponent } from './members/members.component';
@@ -24,6 +25,7 @@ import { MemberCardComponent } from './member-card/member-card.component';
 import Member from './class/member/member';
 import { Team } from './class/team/team';
 import { MemberDetailComponent } from './member-detail/member-detail.component';
+import { SideNavComponent } from './side-nav/side-nav.component';
 
 const appRoutes: Routes = [
   {
@@ -46,7 +48,8 @@ const appRoutes: Routes = [
     TeamsComponent,
     AreasComponent,
     MemberCardComponent,
-    MemberDetailComponent
+    MemberDetailComponent,
+    SideNavComponent
   ],
   imports: [
     RouterModule.forRoot(
@@ -66,7 +69,8 @@ const appRoutes: Routes = [
     MatListModule,
     MatCardModule,
     MatChipsModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatRippleModule
   ],
   providers: [],
   bootstrap: [AppComponent]
