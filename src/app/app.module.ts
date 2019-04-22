@@ -16,7 +16,11 @@ import {
   MatChipsModule,
   MatSlideToggleModule,
   MatFormFieldModule,
-  MatInputModule
+  MatInputModule,
+  MatSelectModule,
+  MatAutocompleteModule,
+  MatDatepickerModule,
+  MatNativeDateModule
 } from '@angular/material';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { MembersComponent } from './members/members.component';
@@ -29,6 +33,7 @@ import { Team } from './class/team/team';
 import { MemberDetailComponent } from './member-detail/member-detail.component';
 import { TeamCardComponent } from './team-card/team-card.component';
 import { TeamDetailsComponent } from './team-details/team-details.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const appRoutes: Routes = [
   {
@@ -59,11 +64,13 @@ const appRoutes: Routes = [
   imports: [
     RouterModule.forRoot(
       appRoutes,
-      { enableTracing: true }
+      { enableTracing: false }
     ),
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatButtonModule,
     MatIconModule,
     MatSidenavModule,
@@ -73,7 +80,11 @@ const appRoutes: Routes = [
     MatChipsModule,
     MatSlideToggleModule,
     MatInputModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatSelectModule,
+    MatAutocompleteModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [
     Member,
