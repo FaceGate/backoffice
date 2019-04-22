@@ -51,7 +51,10 @@ const appRoutes: Routes = [
   imports: [
     RouterModule.forRoot(
       appRoutes,
-      { enableTracing: true }
+      { 
+        enableTracing: true,
+        useHash: true
+      }
     ),
     BrowserModule,
     BrowserAnimationsModule,
@@ -65,10 +68,7 @@ const appRoutes: Routes = [
     MatChipsModule,
     MatSlideToggleModule
   ],
-  providers: [
-    Member,
-    Team
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

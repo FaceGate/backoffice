@@ -14,6 +14,14 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
+## Build docker image
+
+Run `docker build -t facegate/backoffice:0.1 .` to generate image from the Angular application using `--prod` flag. 
+
+## Running docker image
+
+Run `docker run -p 8080:80 facegate/backoffice:0.1` to start the nginx server. Then navigate to [localhost:8080](http://localhost:8080)
+
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
