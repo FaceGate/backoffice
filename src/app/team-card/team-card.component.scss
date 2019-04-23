@@ -3,6 +3,10 @@
     background-size: cover;
 }
 
+.team-card-title {
+    display: flex;
+}
+
 .action-container {
     display: flex;
     flex-direction: row;
@@ -12,4 +16,52 @@
 
 .button-container button {
     margin-inline-start: 8px;
+}
+
+.avatar-list {
+    display: flex;
+    list-style-type: none;
+    padding: 3px 0 0 10px;
+    margin: 0;
+}
+
+.avatar-list[dense] .avatar {
+    width: 12px;
+}
+
+.avatar-list .avatar {
+    position: relative;
+    width: 21.33333333px;
+}
+
+.avatar-list>.avatar>img {
+    background-color: #fafafa;
+    border: 1px solid #fafafa;
+}
+
+.avatar[dense] img, [dense] .avatar img {
+    width: 18px;
+    height: 18px;
+}
+
+.avatar img {
+    border-radius: 50%;
+    flex-shrink: 0;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+
+.avatar-number {
+    color: #414141;
+}
+
+.avatar-number {
+    font-size: 12px;
+}
+
+.avatar-number {
+    position: relative;
+    margin-top: 3px;
+    padding: 0 0 0 12px;
+    width: 30px;
 }
