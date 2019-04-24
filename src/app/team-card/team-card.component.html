@@ -1,22 +1,22 @@
 <mat-card class="example-card">
   <mat-card-header>
     <div mat-card-avatar class="example-header-image"></div>
-    <mat-card-title>{{ member.first_name }} {{ member.last_name }}</mat-card-title>
+    <mat-card-title>{{ team.name }}</mat-card-title>
     <mat-card-subtitle>
       <mat-chip-list>
-        <mat-chip *ngFor="let team of member.teams">
-          {{team.name}}
+        <mat-chip *ngFor="let area of team.areas">
+          {{area.name}}
         </mat-chip>
       </mat-chip-list>
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-actions class="action-container">
     <div class="button-container">
-      <button [routerLink]="['/members', member.id]" mat-stroked-button color="primary">Details</button>
+      <button [routerLink]="['/teams', team.id]" mat-stroked-button color="primary">Details</button>
       <button mat-stroked-button color="primary">Remove</button>
     </div>
     <div>
-      <mat-slide-toggle color="primary" [checked]="member.is_active"></mat-slide-toggle>
+      <mat-slide-toggle color="primary" [checked]="team.is_active"></mat-slide-toggle>
     </div>
   </mat-card-actions>
 </mat-card>

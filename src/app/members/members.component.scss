@@ -5,7 +5,15 @@
 }
 
 .cards {
+    // source: chrome://extensions/
+    --extensions-card-width: 400px;
+    --grid-gutter: 12px;
+    --max-columns: 3;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    grid-gap: 30px;
+    grid-column-gap: var(--grid-gutter);
+    grid-row-gap: var(--grid-gutter);
+    grid-template-columns: repeat(auto-fill, var(--extensions-card-width));
+    justify-content: center;
+    margin: auto;
+    max-width: calc(var(--extensions-card-width) * var(--max-columns) + var(--grid-gutter) * var(--max-columns));
 }

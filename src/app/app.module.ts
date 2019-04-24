@@ -15,17 +15,24 @@ import {
   MatCardModule,
   MatChipsModule,
   MatSlideToggleModule,
-  MatRippleModule
+  MatRippleModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatSelectModule,
+  MatAutocompleteModule,
+  MatDatepickerModule,
+  MatNativeDateModule
 } from '@angular/material';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { MembersComponent } from './members/members.component';
 import { TeamsComponent } from './teams/teams.component';
 import { AreasComponent } from './areas/areas.component';
 import { MemberCardComponent } from './member-card/member-card.component';
-import Member from './class/member/member';
-import { Team } from './class/team/team';
 import { MemberDetailComponent } from './member-detail/member-detail.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
+import { TeamCardComponent } from './team-card/team-card.component';
+import { TeamDetailsComponent } from './team-details/team-details.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const appRoutes: Routes = [
   {
@@ -36,6 +43,7 @@ const appRoutes: Routes = [
   { path: 'members', component: MembersComponent },
   { path: 'members/:id', component: MemberDetailComponent },
   { path: 'teams', component: TeamsComponent },
+  { path: 'teams/:id', component: TeamDetailsComponent },
   { path: 'areas', component: AreasComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
@@ -49,7 +57,9 @@ const appRoutes: Routes = [
     AreasComponent,
     MemberCardComponent,
     MemberDetailComponent,
-    SideNavComponent
+    SideNavComponent,
+    TeamCardComponent,
+    TeamDetailsComponent
   ],
   imports: [
     RouterModule.forRoot(
@@ -62,6 +72,8 @@ const appRoutes: Routes = [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatButtonModule,
     MatIconModule,
     MatSidenavModule,
@@ -70,7 +82,13 @@ const appRoutes: Routes = [
     MatCardModule,
     MatChipsModule,
     MatSlideToggleModule,
-    MatRippleModule
+    MatRippleModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatAutocompleteModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [],
   bootstrap: [AppComponent]
