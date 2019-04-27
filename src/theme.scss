@@ -1,0 +1,11 @@
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+$facegate-app-primary: mat-palette($mat-blue, 600);
+$facegate-app-accent:  mat-palette($mat-blue-grey);
+$facegate-app-warn:    mat-palette($mat-deep-orange);
+
+$facegate-app-theme: mat-light-theme($facegate-app-primary, $facegate-app-accent, $facegate-app-warn);
+
+@include angular-material-theme($facegate-app-theme);
