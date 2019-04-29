@@ -1,5 +1,8 @@
 <mat-toolbar>
-  <span class="brand">FACEGATE</span>
+  <button mat-icon-button>
+    <mat-icon (click)="toggleSidenav()" aria-label="Toggle sidenav">close</mat-icon>
+  </button>
+  <span>FaceGate</span>
 </mat-toolbar>
 <div class="sidenav-content">
   <mat-nav-list>
@@ -7,13 +10,17 @@
       <mat-icon matListIcon>person</mat-icon>
       <a matLine>Members</a>
     </mat-list-item>
-    <mat-list-item routerLink="/teams" class="list-item" routerLinkActive="list-item-active">
+    <mat-list-item routerLink="/groups" class="list-item" routerLinkActive="list-item-active">
       <mat-icon matListIcon>people</mat-icon>
-      <a matLine>Teams</a>
+      <a matLine>Groups</a>
     </mat-list-item>
     <mat-list-item routerLink="/areas" class="list-item" routerLinkActive="list-item-active">
       <mat-icon matListIcon>meeting_room</mat-icon>
       <a matLine>Areas</a>
     </mat-list-item>
   </mat-nav-list>
+  <span class="example-spacer"></span>
+  <div routerLink="/logout" class="logout-container">
+    <button mat-stroked-button class="logout-button" color="warn">Logout</button>
+  </div>
 </div>

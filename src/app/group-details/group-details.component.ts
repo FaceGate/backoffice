@@ -6,12 +6,12 @@ export interface Area {
 }
 
 @Component({
-  selector: 'app-team-details',
-  templateUrl: './team-details.component.html',
-  styleUrls: ['./team-details.component.scss']
+  selector: 'app-group-details',
+  templateUrl: './group-details.component.html',
+  styleUrls: ['./group-details.component.scss']
 })
 
-export class TeamDetailsComponent implements OnInit {
+export class GroupDetailsComponent implements OnInit {
 
   areas: Area[] = [
     {id: 1, name: 'M1'},

@@ -11,35 +11,35 @@
     <div class="member-detail-form">
 
       <mat-form-field>
-        <input matInput placeholder="First Name" [(ngModel)]="member.first_name">
+        <input matInput placeholder="First Name" [(ngModel)]="member.firstName">
       </mat-form-field>
 
       <mat-form-field>
-        <input matInput placeholder="Last Name" [(ngModel)]="member.last_name">
+        <input matInput placeholder="Last Name" [(ngModel)]="member.lastName">
       </mat-form-field>
 
       <!--
       <mat-form-field>
-        <mat-label>Teams</mat-label>
+        <mat-label>Groups</mat-label>
         <mat-select multiple>
-          <mat-option *ngFor="let team of member.teams" [value]="team">{{ team.name }}</mat-option>
+          <mat-option *ngFor="let group of member.groups" [value]="group">{{ group.name }}</mat-option>
         </mat-select>
       </mat-form-field>
       -->
 
       <mat-form-field class="example-chip-list">
         <mat-chip-list #chipList>
-          <mat-chip *ngFor="let team of teams" [selectable]="true" [removable]="true" (removed)="remove(team)">
-            {{team.name}}
+          <mat-chip *ngFor="let group of groups" [selectable]="true" [removable]="true" (removed)="remove(group)">
+            {{group.name}}
             <mat-icon matChipRemove>cancel</mat-icon>
           </mat-chip>
-          <input placeholder="Add team ..." #teamInput [formControl]="teamCtrl" [matAutocomplete]="auto"
+          <input placeholder="Add Group ..." #groupInput [formControl]="groupCtrl" [matAutocomplete]="auto"
             [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
             [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="add($event)">
         </mat-chip-list>
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="select($event)">
-          <mat-option *ngFor="let team of filteredTeams | async" [value]="team">
-            {{team.name}}
+          <mat-option *ngFor="let group of filteredGroups | async" [value]="group">
+            {{group.name}}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>

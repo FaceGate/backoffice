@@ -1,8 +1,8 @@
 import { Area } from '../area/area';
 
-export class Team {
+export class Group {
     id: number;
     name: string;
-    is_active: boolean;
+    isActive: boolean;
     areas: Area[];
 }

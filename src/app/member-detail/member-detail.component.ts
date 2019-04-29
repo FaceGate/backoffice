@@ -6,7 +6,7 @@ import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { MatAutocomplete, MatChipInputEvent, MatAutocompleteSelectedEvent } from '@angular/material';
 import { map, startWith } from 'rxjs/operators';
-import { Team } from '../class/team/team';
+import { Group } from '../class/group/group';
 
 @Component({
   selector: 'app-member-detail',
@@ -19,10 +19,10 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   members: Member[] = [
     {
       "id": 1,
-      "first_name": "John",
-      "last_name": "Doe",
-      "expration_date": "2019-04-19T17:17:12+0200",
-      "profile_pictures": [
+      "firstName": "John",
+      "lastName": "Doe",
+      "expirationDate": "2019-04-19T17:17:12+0200",
+      "profilePictures": [
         {
           "id": 1,
           "url": "http://res.cloudinary.com/FaceGate/image/upload/v1508874121/arvponfkoibwhkz3jfao.png"
@@ -36,17 +36,17 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
           "url": "http://res.cloudinary.com/FaceGate/image/upload/v1508874121/dksieo9idpso3odisu6t.png"
         }
       ],
-      "is_active": true,
-      "teams": [
+      "isActive": true,
+      "groups": [
         {
           "id": 1,
           "name": "Developers",
-          "is_active": true,
+          "isActive": true,
           "areas": [
             {
               "id": 1,
               "name": "M1",
-              "is_active": true,
+              "isActive": true,
               "doors": [
                 {
                   "id": 1
@@ -58,12 +58,12 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
         {
           "id": 2,
           "name": "RH",
-          "is_active": true,
+          "isActive": true,
           "areas": [
             {
               "id": 2,
               "name": "M2",
-              "is_active": true,
+              "isActive": true,
               "doors": [
                 {
                   "id": 2
@@ -76,10 +76,10 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     },
     {
       "id": 2,
-      "first_name": "John",
-      "last_name": "Doe",
-      "expration_date": "2019-04-19T17:17:12+0200",
-      "profile_pictures": [
+      "firstName": "John",
+      "lastName": "Doe",
+      "expirationDate": "2019-04-19T17:17:12+0200",
+      "profilePictures": [
         {
           "id": 1,
           "url": "http://res.cloudinary.com/FaceGate/image/upload/v1508874121/arvponfkoibwhkz3jfao.png"
@@ -93,17 +93,17 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
           "url": "http://res.cloudinary.com/FaceGate/image/upload/v1508874121/dksieo9idpso3odisu6t.png"
         }
       ],
-      "is_active": true,
-      "teams": [
+      "isActive": true,
+      "groups": [
         {
           "id": 1,
           "name": "Developers",
-          "is_active": true,
+          "isActive": true,
           "areas": [
             {
               "id": 1,
               "name": "M1",
-              "is_active": true,
+              "isActive": true,
               "doors": [
                 {
                   "id": 1
@@ -115,12 +115,12 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
         {
           "id": 2,
           "name": "RH",
-          "is_active": true,
+          "isActive": true,
           "areas": [
             {
               "id": 2,
               "name": "M2",
-              "is_active": true,
+              "isActive": true,
               "doors": [
                 {
                   "id": 2
@@ -133,10 +133,10 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     },
     {
       "id": 3,
-      "first_name": "John",
-      "last_name": "Doe",
-      "expration_date": "2019-04-19T17:17:12+0200",
-      "profile_pictures": [
+      "firstName": "John",
+      "lastName": "Doe",
+      "expirationDate": "2019-04-19T17:17:12+0200",
+      "profilePictures": [
         {
           "id": 1,
           "url": "http://res.cloudinary.com/FaceGate/image/upload/v1508874121/arvponfkoibwhkz3jfao.png"
@@ -150,17 +150,17 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
           "url": "http://res.cloudinary.com/FaceGate/image/upload/v1508874121/dksieo9idpso3odisu6t.png"
         }
       ],
-      "is_active": true,
-      "teams": [
+      "isActive": true,
+      "groups": [
         {
           "id": 1,
           "name": "Developers",
-          "is_active": true,
+          "isActive": true,
           "areas": [
             {
               "id": 1,
               "name": "M1",
-              "is_active": true,
+              "isActive": true,
               "doors": [
                 {
                   "id": 1
@@ -172,12 +172,12 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
         {
           "id": 2,
           "name": "RH",
-          "is_active": true,
+          "isActive": true,
           "areas": [
             {
               "id": 2,
               "name": "M2",
-              "is_active": true,
+              "isActive": true,
               "doors": [
                 {
                   "id": 2
@@ -190,10 +190,10 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     },
     {
       "id": 4,
-      "first_name": "John",
-      "last_name": "Doe",
-      "expration_date": "2019-04-19T17:17:12+0200",
-      "profile_pictures": [
+      "firstName": "John",
+      "lastName": "Doe",
+      "expirationDate": "2019-04-19T17:17:12+0200",
+      "profilePictures": [
         {
           "id": 1,
           "url": "http://res.cloudinary.com/FaceGate/image/upload/v1508874121/arvponfkoibwhkz3jfao.png"
@@ -207,17 +207,17 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
           "url": "http://res.cloudinary.com/FaceGate/image/upload/v1508874121/dksieo9idpso3odisu6t.png"
         }
       ],
-      "is_active": true,
-      "teams": [
+      "isActive": true,
+      "groups": [
         {
           "id": 1,
           "name": "Developers",
-          "is_active": true,
+          "isActive": true,
           "areas": [
             {
               "id": 1,
               "name": "M1",
-              "is_active": true,
+              "isActive": true,
               "doors": [
                 {
                   "id": 1
@@ -229,12 +229,12 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
         {
           "id": 2,
           "name": "RH",
-          "is_active": true,
+          "isActive": true,
           "areas": [
             {
               "id": 2,
               "name": "M2",
-              "is_active": true,
+              "isActive": true,
               "doors": [
                 {
                   "id": 2
@@ -247,10 +247,10 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     },
     {
       "id": 5,
-      "first_name": "John",
-      "last_name": "Doe",
-      "expration_date": "2019-04-19T17:17:12+0200",
-      "profile_pictures": [
+      "firstName": "John",
+      "lastName": "Doe",
+      "expirationDate": "2019-04-19T17:17:12+0200",
+      "profilePictures": [
         {
           "id": 1,
           "url": "http://res.cloudinary.com/FaceGate/image/upload/v1508874121/arvponfkoibwhkz3jfao.png"
@@ -264,17 +264,17 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
           "url": "http://res.cloudinary.com/FaceGate/image/upload/v1508874121/dksieo9idpso3odisu6t.png"
         }
       ],
-      "is_active": true,
-      "teams": [
+      "isActive": true,
+      "groups": [
         {
           "id": 1,
           "name": "Developers",
-          "is_active": true,
+          "isActive": true,
           "areas": [
             {
               "id": 1,
               "name": "M1",
-              "is_active": true,
+              "isActive": true,
               "doors": [
                 {
                   "id": 1
@@ -286,12 +286,12 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
         {
           "id": 2,
           "name": "RH",
-          "is_active": true,
+          "isActive": true,
           "areas": [
             {
               "id": 2,
               "name": "M2",
-              "is_active": true,
+              "isActive": true,
               "doors": [
                 {
                   "id": 2
@@ -304,10 +304,10 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     },
     {
       "id": 6,
-      "first_name": "John",
-      "last_name": "Doe",
-      "expration_date": "2019-04-19T17:17:12+0200",
-      "profile_pictures": [
+      "firstName": "John",
+      "lastName": "Doe",
+      "expirationDate": "2019-04-19T17:17:12+0200",
+      "profilePictures": [
         {
           "id": 1,
           "url": "http://res.cloudinary.com/FaceGate/image/upload/v1508874121/arvponfkoibwhkz3jfao.png"
@@ -321,17 +321,17 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
           "url": "http://res.cloudinary.com/FaceGate/image/upload/v1508874121/dksieo9idpso3odisu6t.png"
         }
       ],
-      "is_active": true,
-      "teams": [
+      "isActive": true,
+      "groups": [
         {
           "id": 1,
           "name": "Developers",
-          "is_active": true,
+          "isActive": true,
           "areas": [
             {
               "id": 1,
               "name": "M1",
-              "is_active": true,
+              "isActive": true,
               "doors": [
                 {
                   "id": 1
@@ -343,12 +343,12 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
         {
           "id": 2,
           "name": "RH",
-          "is_active": true,
+          "isActive": true,
           "areas": [
             {
               "id": 2,
               "name": "M2",
-              "is_active": true,
+              "isActive": true,
               "doors": [
                 {
                   "id": 2
@@ -361,19 +361,19 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     }
   ]
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  teamCtrl = new FormControl;
-  filteredTeams: Observable<Team[]>;
-  teams: Team[] = [];
-  allTeams: Team[] = [
+  groupCtrl = new FormControl;
+  filteredGroups: Observable<Group[]>;
+  groups: Group[] = [];
+  allgroups: Group[] = [
     {
       "id": 1,
       "name": "Developers",
-      "is_active": true,
+      "isActive": true,
       "areas": [
         {
           "id": 1,
           "name": "M1",
-          "is_active": true,
+          "isActive": true,
           "doors": [
             {
               "id": 1
@@ -385,12 +385,12 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     {
       "id": 2,
       "name": "RH",
-      "is_active": true,
+      "isActive": true,
       "areas": [
         {
           "id": 2,
           "name": "M2",
-          "is_active": true,
+          "isActive": true,
           "doors": [
             {
               "id": 2
@@ -401,7 +401,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     }
   ];
 
-  @ViewChild('teamInput') teamInput: ElementRef<HTMLInputElement>;
+  @ViewChild('groupInput') groupInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
   private id: number;
@@ -413,14 +413,14 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
       this.id = +params['id'];
     })
 
-    this.filteredTeams = this.teamCtrl.valueChanges.pipe(
+    this.filteredGroups = this.groupCtrl.valueChanges.pipe(
       startWith(null),
-      map((name: string | null) => name ? this._filter(name) : this.allTeams.slice()));
+      map((name: string | null) => name ? this._filter(name) : this.allgroups.slice()));
   }
 
   ngOnInit() {
     this.member = this.getMember(this.id);
-    this.teams = this.getMemberTeam(this.id);
+    this.groups = this.getMemberGroup(this.id);
   }
 
   ngOnDestroy() {
@@ -437,23 +437,23 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
         input.value = '';
       }
 
-      this.teamCtrl.setValue(null);
+      this.groupCtrl.setValue(null);
     }
   }
 
   select(event: MatAutocompleteSelectedEvent): void {
-    if(this.teams.indexOf(event.option.value) === -1) {
-      this.teams.push(event.option.value)
+    if(this.groups.indexOf(event.option.value) === -1) {
+      this.groups.push(event.option.value)
     }
-    this.teamInput.nativeElement.value = '';
-    this.teamCtrl.setValue(null);
+    this.groupInput.nativeElement.value = '';
+    this.groupCtrl.setValue(null);
   }
 
-  remove(team: Team): void {
-    const index = this.teams.indexOf(team);
+  remove(group: Group): void {
+    const index = this.groups.indexOf(group);
 
     if (index >= 0) {
-      this.teams.splice(index, 1);
+      this.groups.splice(index, 1);
     }
   }
 
@@ -461,13 +461,14 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
     return this.members.filter(member => member.id === id)[0];
   }
 
-  private getMemberTeam(id: number): Team[] {
-    return this.members.filter(member => member.id === id)[0].teams;
+  private getMemberGroup(id: number): Group[] {
+    return this.members.filter(member => member.id === id)[0].groups;
   }
 
-  private _filter(value: string): Team[] {
-    if(typeof value === "string")
+  private _filter(value: string): Group[] {
+    if (typeof value === "string") {
       var filterValue = value.toLowerCase();
-    return this.allTeams.filter(team => team.name.toLowerCase().indexOf(filterValue) === 0);
+    }
+    return this.allgroups.filter(group => group.name.toLowerCase().indexOf(filterValue) === 0);
   }
 }

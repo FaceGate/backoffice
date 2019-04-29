@@ -1,4 +1,4 @@
-import { Team } from '../team/team';
+import { Group } from '../group/group';
 
 export interface Pictures {
     id: number;
@@ -7,10 +7,10 @@ export interface Pictures {
 
 export default class Member {
     id: number;
-    first_name: string;
-    last_name: string;
-    expration_date: string;
-    profile_pictures: Pictures[];
-    is_active: boolean;
-    teams: Team[];
+    firstName: string;
+    lastName: string;
+    expirationDate: string;
+    profilePictures: Pictures[];
+    isActive: boolean;
+    groups: Group[];
 }

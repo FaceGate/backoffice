@@ -13,10 +13,10 @@ export class MembersComponent implements OnInit {
   members: Member[] = [
     {
       "id": 1,
-      "first_name": "John",
-      "last_name": "Doe",
-      "expration_date": "2019-04-19T17:17:12+0200",
-      "profile_pictures": [
+      "firstName": "John",
+      "lastName": "Doe",
+      "expirationDate": "2019-04-19T17:17:12+0200",
+      "profilePictures": [
         {
           "id": 1,
           "url": "http://res.cloudinary.com/FaceGate/image/upload/v1508874121/arvponfkoibwhkz3jfao.png"
@@ -30,17 +30,17 @@ export class MembersComponent implements OnInit {
           "url": "http://res.cloudinary.com/FaceGate/image/upload/v1508874121/dksieo9idpso3odisu6t.png"
         }
       ],
-      "is_active": true,
-      "teams": [
+      "isActive": true,
+      "groups": [
         {
           "id": 1,
           "name": "Developers",
-          "is_active": true,
+          "isActive": true,
           "areas": [
             {
               "id": 1,
               "name": "M1",
-              "is_active": true,
+              "isActive": true,
               "doors": [
                 {
                   "id": 1
@@ -52,12 +52,12 @@ export class MembersComponent implements OnInit {
         {
           "id": 2,
           "name": "RH",
-          "is_active": true,
+          "isActive": true,
           "areas": [
             {
               "id": 2,
               "name": "M2",
-              "is_active": true,
+              "isActive": true,
               "doors": [
                 {
                   "id": 2
@@ -70,10 +70,10 @@ export class MembersComponent implements OnInit {
     },
     {
       "id": 2,
-      "first_name": "John",
-      "last_name": "Doe",
-      "expration_date": "2019-04-19T17:17:12+0200",
-      "profile_pictures": [
+      "firstName": "John",
+      "lastName": "Doe",
+      "expirationDate": "2019-04-19T17:17:12+0200",
+      "profilePictures": [
         {
           "id": 1,
           "url": "http://res.cloudinary.com/FaceGate/image/upload/v1508874121/arvponfkoibwhkz3jfao.png"
@@ -87,17 +87,17 @@ export class MembersComponent implements OnInit {
           "url": "http://res.cloudinary.com/FaceGate/image/upload/v1508874121/dksieo9idpso3odisu6t.png"
         }
       ],
-      "is_active": true,
-      "teams": [
+      "isActive": true,
+      "groups": [
         {
           "id": 1,
           "name": "Developers",
-          "is_active": true,
+          "isActive": true,
           "areas": [
             {
               "id": 1,
               "name": "M1",
-              "is_active": true,
+              "isActive": true,
               "doors": [
                 {
                   "id": 1
@@ -109,12 +109,12 @@ export class MembersComponent implements OnInit {
         {
           "id": 2,
           "name": "RH",
-          "is_active": true,
+          "isActive": true,
           "areas": [
             {
               "id": 2,
               "name": "M2",
-              "is_active": true,
+              "isActive": true,
               "doors": [
                 {
                   "id": 2
@@ -127,10 +127,10 @@ export class MembersComponent implements OnInit {
     },
     {
       "id": 3,
-      "first_name": "John",
-      "last_name": "Doe",
-      "expration_date": "2019-04-19T17:17:12+0200",
-      "profile_pictures": [
+      "firstName": "John",
+      "lastName": "Doe",
+      "expirationDate": "2019-04-19T17:17:12+0200",
+      "profilePictures": [
         {
           "id": 1,
           "url": "http://res.cloudinary.com/FaceGate/image/upload/v1508874121/arvponfkoibwhkz3jfao.png"
@@ -144,17 +144,17 @@ export class MembersComponent implements OnInit {
           "url": "http://res.cloudinary.com/FaceGate/image/upload/v1508874121/dksieo9idpso3odisu6t.png"
         }
       ],
-      "is_active": true,
-      "teams": [
+      "isActive": true,
+      "groups": [
         {
           "id": 1,
           "name": "Developers",
-          "is_active": true,
+          "isActive": true,
           "areas": [
             {
               "id": 1,
               "name": "M1",
-              "is_active": true,
+              "isActive": true,
               "doors": [
                 {
                   "id": 1
@@ -166,12 +166,12 @@ export class MembersComponent implements OnInit {
         {
           "id": 2,
           "name": "RH",
-          "is_active": true,
+          "isActive": true,
           "areas": [
             {
               "id": 2,
               "name": "M2",
-              "is_active": true,
+              "isActive": true,
               "doors": [
                 {
                   "id": 2
@@ -184,10 +184,10 @@ export class MembersComponent implements OnInit {
     },
     {
       "id": 4,
-      "first_name": "John",
-      "last_name": "Doe",
-      "expration_date": "2019-04-19T17:17:12+0200",
-      "profile_pictures": [
+      "firstName": "John",
+      "lastName": "Doe",
+      "expirationDate": "2019-04-19T17:17:12+0200",
+      "profilePictures": [
         {
           "id": 1,
           "url": "http://res.cloudinary.com/FaceGate/image/upload/v1508874121/arvponfkoibwhkz3jfao.png"
@@ -201,17 +201,17 @@ export class MembersComponent implements OnInit {
           "url": "http://res.cloudinary.com/FaceGate/image/upload/v1508874121/dksieo9idpso3odisu6t.png"
         }
       ],
-      "is_active": true,
-      "teams": [
+      "isActive": true,
+      "groups": [
         {
           "id": 1,
           "name": "Developers",
-          "is_active": true,
+          "isActive": true,
           "areas": [
             {
               "id": 1,
               "name": "M1",
-              "is_active": true,
+              "isActive": true,
               "doors": [
                 {
                   "id": 1
@@ -223,12 +223,12 @@ export class MembersComponent implements OnInit {
         {
           "id": 2,
           "name": "RH",
-          "is_active": true,
+          "isActive": true,
           "areas": [
             {
               "id": 2,
               "name": "M2",
-              "is_active": true,
+              "isActive": true,
               "doors": [
                 {
                   "id": 2
@@ -241,10 +241,10 @@ export class MembersComponent implements OnInit {
     },
     {
       "id": 5,
-      "first_name": "John",
-      "last_name": "Doe",
-      "expration_date": "2019-04-19T17:17:12+0200",
-      "profile_pictures": [
+      "firstName": "John",
+      "lastName": "Doe",
+      "expirationDate": "2019-04-19T17:17:12+0200",
+      "profilePictures": [
         {
           "id": 1,
           "url": "http://res.cloudinary.com/FaceGate/image/upload/v1508874121/arvponfkoibwhkz3jfao.png"
@@ -258,17 +258,17 @@ export class MembersComponent implements OnInit {
           "url": "http://res.cloudinary.com/FaceGate/image/upload/v1508874121/dksieo9idpso3odisu6t.png"
         }
       ],
-      "is_active": true,
-      "teams": [
+      "isActive": true,
+      "groups": [
         {
           "id": 1,
           "name": "Developers",
-          "is_active": true,
+          "isActive": true,
           "areas": [
             {
               "id": 1,
               "name": "M1",
-              "is_active": true,
+              "isActive": true,
               "doors": [
                 {
                   "id": 1
@@ -280,12 +280,12 @@ export class MembersComponent implements OnInit {
         {
           "id": 2,
           "name": "RH",
-          "is_active": true,
+          "isActive": true,
           "areas": [
             {
               "id": 2,
               "name": "M2",
-              "is_active": true,
+              "isActive": true,
               "doors": [
                 {
                   "id": 2
@@ -298,10 +298,10 @@ export class MembersComponent implements OnInit {
     },
     {
       "id": 6,
-      "first_name": "John",
-      "last_name": "Doe",
-      "expration_date": "2019-04-19T17:17:12+0200",
-      "profile_pictures": [
+      "firstName": "John",
+      "lastName": "Doe",
+      "expirationDate": "2019-04-19T17:17:12+0200",
+      "profilePictures": [
         {
           "id": 1,
           "url": "http://res.cloudinary.com/FaceGate/image/upload/v1508874121/arvponfkoibwhkz3jfao.png"
@@ -315,17 +315,17 @@ export class MembersComponent implements OnInit {
           "url": "http://res.cloudinary.com/FaceGate/image/upload/v1508874121/dksieo9idpso3odisu6t.png"
         }
       ],
-      "is_active": true,
-      "teams": [
+      "isActive": true,
+      "groups": [
         {
           "id": 1,
           "name": "Developers",
-          "is_active": true,
+          "isActive": true,
           "areas": [
             {
               "id": 1,
               "name": "M1",
-              "is_active": true,
+              "isActive": true,
               "doors": [
                 {
                   "id": 1
@@ -337,12 +337,12 @@ export class MembersComponent implements OnInit {
         {
           "id": 2,
           "name": "RH",
-          "is_active": true,
+          "isActive": true,
           "areas": [
             {
               "id": 2,
               "name": "M2",
-              "is_active": true,
+              "isActive": true,
               "doors": [
                 {
                   "id": 2
