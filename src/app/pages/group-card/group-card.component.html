@@ -1,13 +1,12 @@
 <mat-card class="example-card">
   <mat-card-header>
-    <div mat-card-avatar class="example-header-image"></div>
     <mat-card-title class="group-card-title">
       {{ group.name }}
       <ul class="avatar-list" dense>
-          <li class="avatar"><img src="https://www.meme-arsenal.com/memes/36c0af67ecf34b1a747d976ba397e131.jpg"/></li>
-          <li class="avatar"><img src="https://www.meme-arsenal.com/memes/36c0af67ecf34b1a747d976ba397e131.jpg"/></li>
-          <li class="avatar"><img src="https://www.meme-arsenal.com/memes/36c0af67ecf34b1a747d976ba397e131.jpg"/></li>
-          <li class="avatar-number">+6</li>
+        <li class="avatar" *ngFor="let member of members | slice:0:3">
+          <img alt="profile_picture" [src]="member.profilePictures[0].url"/>
+        </li>
+        <li class="avatar-number" *ngIf="members.length > 3">+{{members.length - 3}}</li>
       </ul>
     </mat-card-title>
     <mat-card-subtitle>
@@ -21,10 +20,10 @@
   <mat-card-actions class="action-container">
     <div class="button-container">
       <button [routerLink]="['/groups', group.id]" mat-stroked-button color="primary">Details</button>
-      <button mat-stroked-button color="primary">Remove</button>
+      <button mat-stroked-button color="primary" (click)="removeGroup(group)">Remove</button>
     </div>
     <div>
-      <mat-slide-toggle color="primary" [checked]="group.isActive"></mat-slide-toggle>
+      <mat-slide-toggle color="primary" [(ngModel)]="group.isActive" (click)="updateGroup(group)"></mat-slide-toggle>
     </div>
   </mat-card-actions>
 </mat-card>
