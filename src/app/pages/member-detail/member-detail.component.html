@@ -1,0 +1,50 @@
+<div class="page-container">
+
+  <div class="page-content">
+
+    <mat-toolbar class="member-detail-toolbar">
+      <button [routerLink]="['/members']" mat-icon-button>
+        <mat-icon aria-label="Back to members list">arrow_back</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <div class="member-detail-form">
+
+      <mat-form-field>
+        <input matInput placeholder="First Name" [(ngModel)]="member.firstName">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Last Name" [(ngModel)]="member.lastName">
+      </mat-form-field>
+
+      <mat-form-field class="example-chip-list">
+        <mat-chip-list #chipList>
+          <mat-chip *ngFor="let group of member.groups" [selectable]="true" [removable]="true"
+                    (removed)="removeGroup(group)">
+            {{group.name}}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+          <input placeholder="Add Group ..." #groupInput [formControl]="groupCtrl" [matAutocomplete]="auto"
+                 [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                 [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="addGroup($event)">
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectGroup($event)">
+          <mat-option *ngFor="let group of filteredGroups | async" [value]="group">
+            {{group.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker" placeholder="Expiration Date" [(ngModel)]="member.expirationDate">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <button mat-stroked-button color="primary" (click)="updateMember()">Save</button>
+    </div>
+
+  </div>
+
+</div>

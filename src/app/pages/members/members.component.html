@@ -1,0 +1,20 @@
+<div id="content-wrapper" *ngIf="members.length">
+    <section class="cards">
+        <app-member-card *ngFor="let member of members" [member]="member"></app-member-card>
+    </section>
+</div>
+
+<div id="empty-state-wrapper" *ngIf="!members.length">
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title class="group-card-title">
+        No member added yet
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-actions class="action-container">
+      <div class="button-container">
+        <button mat-stroked-button color="primary" (click)="addMember()">Add</button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</div>

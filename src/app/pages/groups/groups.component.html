@@ -1,0 +1,20 @@
+<div id="content-wrapper" *ngIf="groups.length">
+  <section class="cards">
+    <app-group-card *ngFor="let group of groups" [group]="group"></app-group-card>
+  </section>
+</div>
+
+<div id="empty-state-wrapper" *ngIf="!groups.length">
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title class="group-card-title">
+        No group created yet
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-actions class="action-container">
+      <div class="button-container">
+        <button mat-stroked-button color="primary" (click)="createGroup()">Create</button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</div>
