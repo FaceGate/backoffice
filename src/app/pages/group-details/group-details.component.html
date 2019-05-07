@@ -1,0 +1,41 @@
+<div class="page-container">
+
+  <div class="page-content">
+
+    <mat-toolbar class="group-detail-toolbar">
+      <button [routerLink]="['/groups']" mat-icon-button>
+        <mat-icon aria-label="Back to group list">arrow_back</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <div class="group-detail-form">
+
+      <mat-form-field>
+        <input matInput placeholder="Group Name" [(ngModel)]="group.name">
+      </mat-form-field>
+
+      <mat-form-field class="example-chip-list">
+        <mat-chip-list #chipList>
+          <mat-chip *ngFor="let area of group.areas" [selectable]="true" [removable]="true"
+                    (removed)="removeArea(area)">
+            {{area.name}}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+          <input placeholder="Add Area ..." #areaInput [formControl]="areaCtrl" [matAutocomplete]="auto"
+                 [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                 [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="addArea($event)">
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectArea($event)">
+          <mat-option *ngFor="let area of filteredAreas | async" [value]="area">
+            {{area.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <button mat-stroked-button color="primary" (click)="updateGroup()">Save</button>
+
+    </div>
+
+  </div>
+
+</div>

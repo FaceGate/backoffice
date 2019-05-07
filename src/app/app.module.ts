@@ -23,16 +23,17 @@ import {
   MatDatepickerModule,
   MatNativeDateModule
 } from '@angular/material';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { MembersComponent } from './members/members.component';
-import { TeamsComponent } from './teams/teams.component';
-import { AreasComponent } from './areas/areas.component';
-import { MemberCardComponent } from './member-card/member-card.component';
-import { MemberDetailComponent } from './member-detail/member-detail.component';
-import { SideNavComponent } from './side-nav/side-nav.component';
-import { TeamCardComponent } from './team-card/team-card.component';
-import { TeamDetailsComponent } from './team-details/team-details.component';
+import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
+import { MembersComponent } from './pages/members/members.component';
+import { GroupsComponent } from './pages/groups/groups.component';
+import { AreasComponent } from './pages/areas/areas.component';
+import { MemberCardComponent } from './pages/member-card/member-card.component';
+import { MemberDetailComponent } from './pages/member-detail/member-detail.component';
+import { SideNavComponent } from './pages/side-nav/side-nav.component';
+import { GroupCardComponent } from './pages/group-card/group-card.component';
+import { GroupDetailsComponent } from './pages/group-details/group-details.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AreaCardComponent } from './pages/area-card/area-card.component';
 
 const appRoutes: Routes = [
   {
@@ -42,8 +43,8 @@ const appRoutes: Routes = [
   },
   { path: 'members', component: MembersComponent },
   { path: 'members/:id', component: MemberDetailComponent },
-  { path: 'teams', component: TeamsComponent },
-  { path: 'teams/:id', component: TeamDetailsComponent },
+  { path: 'groups', component: GroupsComponent },
+  { path: 'groups/:id', component: GroupDetailsComponent },
   { path: 'areas', component: AreasComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
@@ -53,13 +54,14 @@ const appRoutes: Routes = [
     AppComponent,
     PageNotFoundComponent,
     MembersComponent,
-    TeamsComponent,
+    GroupsComponent,
     AreasComponent,
     MemberCardComponent,
     MemberDetailComponent,
     SideNavComponent,
-    TeamCardComponent,
-    TeamDetailsComponent
+    GroupCardComponent,
+    GroupDetailsComponent,
+    AreaCardComponent
   ],
   imports: [
     RouterModule.forRoot(

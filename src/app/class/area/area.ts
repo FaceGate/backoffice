@@ -1,10 +1,10 @@
-export interface door {
-    id: number;
+export interface Door {
+  id: number;
 }
 
 export class Area {
-    id: number;
-    name: string;
-    is_active: boolean;
-    doors: door[];
+  id: number;
+  name: string;
+  isActive: boolean;
+  doors: Door[];
 }
