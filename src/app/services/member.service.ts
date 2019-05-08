@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Member} from '../class/member/member';
+import {Group} from '../class/group/group';
 import {ERRORS} from '../constants/errors';
 
 @Injectable({
