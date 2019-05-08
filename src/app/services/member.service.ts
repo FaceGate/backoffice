@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Member} from '../class/member/member';
 import {Group} from '../class/group/group';
+import {ERRORS} from '../constants/errors';
 
 @Injectable({
   providedIn: 'root'
@@ -377,6 +378,8 @@ export class MemberService {
 
   addMember(member: Member): void {
     if (this.checkMemberObject(member)) {
+      // const errorKey = 'TOO_MANY_FACES';
+      // alert(ERRORS[errorKey]);
       this.members.push(member);
     }
   }

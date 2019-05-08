@@ -1,3 +1,17 @@
+@import '~@angular/material/theming';
+
 .sidenav {
-    width: 256px;
+  width: 260px;
+}
+
+.mat-drawer {
+  background-color: #43425D;
+}
+
+.mat-toolbar {
+  background: #FFFFFF;
+}
+
+.app-body {
+  background-color: #F0F0F7;
 }

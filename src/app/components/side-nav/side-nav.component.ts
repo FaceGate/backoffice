@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-side-nav',
@@ -7,15 +7,8 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class SideNavComponent implements OnInit {
 
-  @Output() sidenavToggle = new EventEmitter<boolean>();
-
   constructor() { }
 
   ngOnInit() {
   }
-
-  toggleSidenav() {
-    this.sidenavToggle.emit(true);
-  }
-
 }

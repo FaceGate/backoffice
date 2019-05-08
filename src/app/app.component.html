@@ -1,16 +1,15 @@
 <mat-sidenav-container fullscreen>
 
-  <mat-sidenav class="sidenav" #sidenav mode="over">
-    <app-side-nav (sidenavToggle)="sidenav.toggle()"></app-side-nav>
+  <mat-sidenav class="sidenav" #sidenav mode="side" opened>
+    <app-side-nav></app-side-nav>
   </mat-sidenav>
 
-  <mat-sidenav-content>
+  <mat-sidenav-content class="app-body">
 
-    <mat-toolbar color="primary">
+    <mat-toolbar>
       <button mat-icon-button>
         <mat-icon (click)="sidenav.toggle()" aria-label="Toggle sidenav">menu</mat-icon>
       </button>
-      <span>FaceGate</span>
     </mat-toolbar>
 
     <router-outlet></router-outlet>

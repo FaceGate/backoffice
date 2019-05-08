@@ -18,4 +18,7 @@ export class MembersComponent implements OnInit {
     this.members = this.memberService.getMembers();
   }
 
+  addMember() {
+  }
+
 }

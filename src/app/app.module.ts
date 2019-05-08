@@ -23,17 +23,17 @@ import {
   MatDatepickerModule,
   MatNativeDateModule
 } from '@angular/material';
-import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
-import { MembersComponent } from './pages/members/members.component';
-import { GroupsComponent } from './pages/groups/groups.component';
-import { AreasComponent } from './pages/areas/areas.component';
-import { MemberCardComponent } from './pages/member-card/member-card.component';
-import { MemberDetailComponent } from './pages/member-detail/member-detail.component';
-import { SideNavComponent } from './pages/side-nav/side-nav.component';
-import { GroupCardComponent } from './pages/group-card/group-card.component';
-import { GroupDetailsComponent } from './pages/group-details/group-details.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { MembersComponent } from './components/members/members.component';
+import { GroupsComponent } from './components/groups/groups.component';
+import { AreasComponent } from './components/areas/areas.component';
+import { MemberCardComponent } from './components/member-card/member-card.component';
+import { MemberDetailComponent } from './components/member-detail/member-detail.component';
+import { SideNavComponent } from './components/side-nav/side-nav.component';
+import { GroupCardComponent } from './components/group-card/group-card.component';
+import { GroupDetailsComponent } from './components/group-details/group-details.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AreaCardComponent } from './pages/area-card/area-card.component';
+import { AreaCardComponent } from './components/area-card/area-card.component';
 
 const appRoutes: Routes = [
   {

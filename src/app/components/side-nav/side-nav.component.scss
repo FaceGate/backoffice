@@ -1,0 +1,35 @@
+.mat-toolbar {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.brand {
+  color: #FFFFFF;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.list-item {
+  color: #FFFFFF;
+  font-size: 14px;
+  box-sizing: border-box;
+  padding-left: 0;
+  border-left-width: 6px;
+  border-left-style: solid;
+  border-left-color: transparent;
+  margin-bottom: 8px;
+}
+
+.list-item-active {
+  border-left: 6px solid #A3A0FB;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.list-item-active mat-icon {
+  color: #A3A0FB;
+}
+
+.sidenav-content {
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
+}
