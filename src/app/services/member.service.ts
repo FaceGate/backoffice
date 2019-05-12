@@ -385,8 +385,10 @@ export class MemberService {
     if (this.checkMemberObject(member)) {
       // const errorKey = 'TOO_MANY_FACES';
       // alert(ERRORS[errorKey]);
-      if(!member.id) {
+      if(!member.id && this.members.length > 0) {
         member.id = this.members[this.members.length - 1].id + 1;
+      } else {
+        member.id = 1;
       }
       this.members.push(member);
       this.snackBar.open(`New joiner: ${member.firstName} ${member.lastName} 🎉`, null, {
