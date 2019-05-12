@@ -8,6 +8,7 @@ import { MatChipInputEvent, MatAutocompleteSelectedEvent, MatAutocomplete } from
 import { Member } from 'src/app/class/member/member';
 import { MemberService } from 'src/app/services/member.service';
 import { Router } from '@angular/router';
+import { ENTER, COMMA } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-member-enrollment',
@@ -18,6 +19,7 @@ export class MemberEnrollmentComponent implements OnInit {
   
   member: Member = new Member;
   groupCtrl = new FormControl;
+  separatorKeysCodes: number[] = [ENTER, COMMA];
   filteredGroups: Observable<Group[]>;
   allGroups: Group[];
 
