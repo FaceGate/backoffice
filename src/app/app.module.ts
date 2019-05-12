@@ -21,7 +21,8 @@ import {
   MatSelectModule,
   MatAutocompleteModule,
   MatDatepickerModule,
-  MatNativeDateModule
+  MatNativeDateModule,
+  MatSnackBarModule
 } from '@angular/material';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { MembersComponent } from './components/members/members.component';
@@ -34,6 +35,7 @@ import { GroupCardComponent } from './components/group-card/group-card.component
 import { GroupDetailsComponent } from './components/group-details/group-details.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AreaCardComponent } from './components/area-card/area-card.component';
+import { MemberEnrollmentComponent } from './components/member-enrollment/member-enrollment.component';
 
 const appRoutes: Routes = [
   {
@@ -43,6 +45,7 @@ const appRoutes: Routes = [
   },
   { path: 'members', component: MembersComponent },
   { path: 'members/:id', component: MemberDetailComponent },
+  { path: 'enrollment', component: MemberEnrollmentComponent },
   { path: 'groups', component: GroupsComponent },
   { path: 'groups/:id', component: GroupDetailsComponent },
   { path: 'areas', component: AreasComponent },
@@ -61,13 +64,14 @@ const appRoutes: Routes = [
     SideNavComponent,
     GroupCardComponent,
     GroupDetailsComponent,
-    AreaCardComponent
+    AreaCardComponent,
+    MemberEnrollmentComponent,
   ],
   imports: [
     RouterModule.forRoot(
       appRoutes,
       {
-        enableTracing: true,
+        enableTracing: false,
         useHash: true
       }
     ),
@@ -90,7 +94,8 @@ const appRoutes: Routes = [
     MatSelectModule,
     MatAutocompleteModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

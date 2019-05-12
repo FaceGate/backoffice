@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Member} from '../class/member/member';
 import {Group} from '../class/group/group';
 import {ERRORS} from '../constants/errors';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
@@ -353,12 +354,16 @@ export class MemberService {
     }
   ];
 
-  constructor() {
+  constructor(private snackBar: MatSnackBar) {
   }
 
   private checkMemberObject(member: Member): boolean {
     if (!member.firstName || !member.lastName || member.groups.length === 0) {
-      alert('Un champ est manquant');
+      this.snackBar.open("Missing Field !", null, {
+        duration: 3000,
+        verticalPosition: "bottom",
+        horizontalPosition: "right"
+      });
       return false;
     }
     return true;
@@ -376,12 +381,22 @@ export class MemberService {
     return this.members.filter(member => member.groups.filter(group => group.id === id));
   }
 
-  addMember(member: Member): void {
+  addMember(member: Member): boolean {
     if (this.checkMemberObject(member)) {
       // const errorKey = 'TOO_MANY_FACES';
       // alert(ERRORS[errorKey]);
+      if(!member.id) {
+        member.id = this.members[this.members.length - 1].id + 1;
+      }
       this.members.push(member);
+      this.snackBar.open(`New joiner: ${member.firstName} ${member.lastName} 🎉`, null, {
+        duration: 3000,
+        verticalPosition: "bottom",
+        horizontalPosition: "right"
+      });
+      return true;
     }
+    return false;
   }
 
   updateMember(member: Member): void {

@@ -2,4 +2,7 @@
     <section class="cards">
         <app-member-card *ngFor="let member of members" [member]="member"></app-member-card>
     </section>
+    <button mat-fab routerLink="/enrollment" color="primary" class="mat-fab-bottom-right">
+        <mat-icon aria-label="add">add</mat-icon>
+    </button>
 </div>
