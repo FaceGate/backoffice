@@ -1,5 +1,14 @@
 <div id="content-wrapper">
-    <section class="cards">
+    <section *ngIf="members.length > 0" class="cards">
         <app-member-card *ngFor="let member of members" [member]="member"></app-member-card>
     </section>
+    <section *ngIf="members.length === 0" class="empty-state">
+        <div class="empty-state-content">
+            <img src="../../../assets/empty-state.png" class="empty-state-img" />
+            <h4>"Hmm... that button must be important..."</h4>
+        </div>
+    </section>
+    <button mat-fab routerLink="/enrollment" color="primary" class="mat-fab-bottom-right">
+        <mat-icon aria-label="add">add</mat-icon>
+    </button>
 </div>

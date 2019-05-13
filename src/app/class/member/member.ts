@@ -1,4 +1,4 @@
-import {Group} from '../group/group';
+import { Group } from '../group/group';
 
 export interface Pictures {
   id: number;
@@ -13,4 +13,16 @@ export class Member {
   profilePictures: Pictures[];
   isActive: boolean;
   groups: Group[];
+
+  constructor() {
+    //TODO REMOVE WHEN BACK-END IMPLEMENTED
+    this.profilePictures = [
+      {
+        id: 1,
+        url: 'https://res.cloudinary.com/esgi/image/upload/v1556626967/Facegate/images_ovmr5l.jpg'
+      }
+    ];
+    this.groups = [];
+    this.isActive = true;
+  }
 }
