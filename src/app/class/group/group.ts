@@ -5,4 +5,9 @@ export class Group {
   name: string;
   isActive: boolean;
   areas: Area[];
+
+  constructor() {
+    this.isActive = true;
+    this.areas = [];
+  }
 }

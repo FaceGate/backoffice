@@ -1,5 +1,14 @@
 <div id="content-wrapper">
-    <section class="cards">
+    <section *ngIf="groups.length > 0" class="cards">
         <app-group-card *ngFor="let group of groups" [group]="group"></app-group-card>
     </section>
+    <section *ngIf="groups.length === 0" class="empty-state">
+        <div class="empty-state-content">
+            <img src="../../../assets/empty-state.png" class="empty-state-img" />
+            <h4>"Hmm... that button must be important..."</h4>
+        </div>
+    </section>
+    <button mat-fab routerLink="/groupsCreation" color="primary" class="mat-fab-bottom-right">
+        <mat-icon aria-label="add">add</mat-icon>
+    </button>
 </div>
