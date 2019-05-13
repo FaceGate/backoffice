@@ -21,3 +21,18 @@
     flex-direction: column;
     padding: 20px 20px;
 }
+
+.upload_picture_btn {
+  mat-icon {
+    font-size: 100px;
+    height: 100px;
+    width: 100px;
+  }
+  width: 150px;
+  height: 150px;
+}
+
+.example-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}

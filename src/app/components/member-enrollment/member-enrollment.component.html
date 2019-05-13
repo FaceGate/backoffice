@@ -10,6 +10,15 @@
 
     <div class="member-detail-form">
 
+
+      <!--<button mat-fab class="upload_picture_btn" color="primary" type="file" id="file">
+        <mat-icon class="upload_picture_btn_icon" aria-label="Upload picture">add</mat-icon>
+      </button>-->
+      <img *ngFor="let picturesUrl of picturesUrls" [src]="picturesUrl" height="100" width="100"> <br/>
+      <input type='file' (change)="onSelectFile($event)">
+
+      <br>
+
       <mat-form-field>
         <input matInput placeholder="First Name" [(ngModel)]="member.firstName">
       </mat-form-field>
@@ -21,13 +30,13 @@
       <mat-form-field class="example-chip-list">
         <mat-chip-list #chipList>
           <mat-chip *ngFor="let group of member.groups" [selectable]="true" [removable]="true"
-            (removed)="removeGroup(group)">
+                    (removed)="removeGroup(group)">
             {{group.name}}
             <mat-icon matChipRemove>cancel</mat-icon>
           </mat-chip>
           <input placeholder="Add Group ..." #groupInput [formControl]="groupCtrl" [matAutocomplete]="auto"
-            [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="addGroup($event)">
+                 [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                 [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="addGroup($event)">
         </mat-chip-list>
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectGroup($event)">
           <mat-option *ngFor="let group of filteredGroups | async" [value]="group">
