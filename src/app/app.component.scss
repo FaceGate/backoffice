@@ -1,5 +1,11 @@
 @import '~@angular/material/theming';
 
+@media (min-width: 920px) {
+  #hide-desktop {
+    visibility: hidden !important;
+  }
+}
+
 .sidenav {
   width: 260px;
 }

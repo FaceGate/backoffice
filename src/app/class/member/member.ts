@@ -23,5 +23,6 @@ export class Member {
       }
     ];
     this.groups = [];
+    this.isActive = true;
   }
 }
