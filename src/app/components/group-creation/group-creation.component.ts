@@ -1,23 +1,23 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {AreaService} from '../../services/area.service';
-import {ActivatedRoute} from '@angular/router';
-import {Group} from '../../class/group/group';
-import {GroupService} from '../../services/group.service';
-import {Observable} from 'rxjs';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {FormControl} from '@angular/forms';
-import {MatAutocomplete, MatChipInputEvent, MatAutocompleteSelectedEvent} from '@angular/material';
-import {map, startWith} from 'rxjs/operators';
-import {Area} from '../../class/area/area';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Group } from 'src/app/class/group/group';
+import { ENTER, COMMA } from '@angular/cdk/keycodes';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { Area } from 'src/app/class/area/area';
+import { MatAutocomplete, MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
+import { startWith, map } from 'rxjs/operators';
+import { AreaService } from 'src/app/services/area.service';
+import { GroupService } from 'src/app/services/group.service';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-group-details',
-  templateUrl: './group-details.component.html',
-  styleUrls: ['./group-details.component.scss']
+  selector: 'app-group-creation',
+  templateUrl: './group-creation.component.html',
+  styleUrls: ['./group-creation.component.scss']
 })
+export class GroupCreationComponent implements OnInit {
 
-export class GroupDetailsComponent implements OnInit, OnDestroy {
-  group: Group;
+  public group: Group = new Group;
   separatorKeysCodes: number[] = [ENTER, COMMA];
   areaCtrl = new FormControl;
   filteredAreas: Observable<Area[]>;
@@ -29,23 +29,14 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
   private id: number;
   private sub: any;
 
-  constructor(public route: ActivatedRoute, private groupService: GroupService, private areaService: AreaService) {
-    this.sub = this.route.params.subscribe(params => {
-      this.id = +params.id;
-    });
-
+  constructor(private groupService: GroupService, private areaService: AreaService, private router: Router) {
     this.filteredAreas = this.areaCtrl.valueChanges.pipe(
       startWith(null),
       map((name: string | null) => name ? this._filter(name) : this.allAreas.slice()));
   }
 
   ngOnInit() {
-    this.group = this.groupService.getGroup(this.id);
     this.allAreas = this.areaService.getAreas();
-  }
-
-  ngOnDestroy() {
-    this.sub.unsubscribe();
   }
 
   addArea(event: MatChipInputEvent): void {
@@ -77,8 +68,13 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateGroup(): void {
-    this.groupService.updateGroup(this.group);
+  createGroup() {
+    if (this.groupService.addGroup(this.group)) {
+      console.log("Group created !");
+      this.router.navigate(["/groups"]);
+    } else {
+      console.log("Group creation failed !");
+    }
   }
 
   private _filter(value: string): Area[] {

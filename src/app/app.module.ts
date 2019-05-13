@@ -36,7 +36,9 @@ import { GroupDetailsComponent } from './components/group-details/group-details.
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AreaCardComponent } from './components/area-card/area-card.component';
 import { MemberEnrollmentComponent } from './components/member-enrollment/member-enrollment.component';
+import { GroupCreationComponent } from './components/group-creation/group-creation.component';
 
+//TODO refacto with children routing
 const appRoutes: Routes = [
   {
     path: '',
@@ -48,6 +50,7 @@ const appRoutes: Routes = [
   { path: 'enrollment', component: MemberEnrollmentComponent },
   { path: 'groups', component: GroupsComponent },
   { path: 'groups/:id', component: GroupDetailsComponent },
+  { path: 'groupsCreation', component: GroupCreationComponent },
   { path: 'areas', component: AreasComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
@@ -66,6 +69,7 @@ const appRoutes: Routes = [
     GroupDetailsComponent,
     AreaCardComponent,
     MemberEnrollmentComponent,
+    GroupCreationComponent,
   ],
   imports: [
     RouterModule.forRoot(

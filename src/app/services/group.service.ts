@@ -41,10 +41,17 @@ export class GroupService {
     return this.groups.find(group => group.id === id);
   }
 
-  addGroup(group: Group): void {
+  addGroup(group: Group): boolean {
     if (this.CheckGroupObject(group)) {
+      if (!group.id && this.groups.length > 0) {
+        group.id = this.groups[this.groups.length - 1].id + 1;
+      } else {
+        group.id = 1;
+      }
       this.groups.push(group);
+      return true;
     }
+    return false;
   }
 
   updateGroup(group: Group): void {
