@@ -14,8 +14,10 @@
       <!--<button mat-fab class="upload_picture_btn" color="primary" type="file" id="file">
         <mat-icon class="upload_picture_btn_icon" aria-label="Upload picture">add</mat-icon>
       </button>-->
-      <img *ngFor="let picturesUrl of picturesUrls" [src]="picturesUrl" height="100" width="100"> <br/>
-      <input type='file' (change)="onSelectFile($event)">
+      <div class="member-image-preview">
+        <img *ngFor="let picturesUrl of picturesUrls" [src]="picturesUrl" height="100" width="100">
+      </div>
+      <input type='file' (change)="onSelectFile($event.target.files)">
 
       <br>
 

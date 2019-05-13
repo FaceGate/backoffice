@@ -1,14 +1,14 @@
-import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
-import {Group} from 'src/app/class/group/group';
-import {Observable} from 'rxjs';
-import {FormControl} from '@angular/forms';
-import {startWith, map} from 'rxjs/operators';
-import {GroupService} from 'src/app/services/group.service';
-import {MatChipInputEvent, MatAutocompleteSelectedEvent, MatAutocomplete} from '@angular/material';
-import {Member} from 'src/app/class/member/member';
-import {MemberService} from 'src/app/services/member.service';
-import {Router} from '@angular/router';
-import {ENTER, COMMA} from '@angular/cdk/keycodes';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Group } from 'src/app/class/group/group';
+import { Observable } from 'rxjs';
+import { FormControl } from '@angular/forms';
+import { startWith, map } from 'rxjs/operators';
+import { GroupService } from 'src/app/services/group.service';
+import { MatChipInputEvent, MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material';
+import { Member } from 'src/app/class/member/member';
+import { MemberService } from 'src/app/services/member.service';
+import { Router } from '@angular/router';
+import { ENTER, COMMA } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-member-enrollment',
@@ -22,7 +22,7 @@ export class MemberEnrollmentComponent implements OnInit {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   filteredGroups: Observable<Group[]>;
   allGroups: Group[];
-  picturesUrls: EventTarget[] = [];
+  picturesUrls: string[] = [];
 
   @ViewChild('groupInput') groupInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
@@ -76,15 +76,13 @@ export class MemberEnrollmentComponent implements OnInit {
     }
   }
 
-  onSelectFile(event) { // called each time file input changes
-    if (event.target.files && event.target.files[0]) {
+  onSelectFile(files: FileList) {
+    if (files && files.item(0)) {
       var reader = new FileReader();
+      reader.readAsDataURL(files.item(0));
 
-      reader.readAsDataURL(event.target.files[0]);
-
-      // tslint:disable-next-line:no-shadowed-variable
-      reader.onload = (event) => {
-        this.picturesUrls.push(event.target.result);
+      reader.onload = (event: any) => {
+        this.picturesUrls.push(event.target["result"]);
       };
     }
   }
