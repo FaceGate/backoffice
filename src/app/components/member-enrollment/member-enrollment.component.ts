@@ -77,13 +77,17 @@ export class MemberEnrollmentComponent implements OnInit {
   }
 
   onSelectFile(files: FileList) {
-    if (files && files.item(0)) {
-      var reader = new FileReader();
-      reader.readAsDataURL(files.item(0));
-
-      reader.onload = (event: any) => {
-        this.picturesUrls.push(event.target["result"]);
-      };
+    if (files && files.length) {
+      for (let i = 0; i < files.length; i++) {
+        var reader = new FileReader();
+        var file = files[i];
+        if (file.type.includes("image")) {
+          reader.readAsDataURL(file);
+          reader.onload = (event: any) => {
+            this.picturesUrls.push(event.target["result"]);
+          };
+        }
+      }
     }
   }
 
