@@ -76,7 +76,7 @@ export class MemberEnrollmentComponent implements OnInit {
     }
   }
 
-  onSelectFile(files: FileList) {
+  uploadPictures(files: FileList) {
     if (files && files.length) {
       for (let i = 0; i < files.length; i++) {
         var reader = new FileReader();
@@ -89,6 +89,12 @@ export class MemberEnrollmentComponent implements OnInit {
         }
       }
     }
+  }
+
+  removePicture (url: string) {
+    this.picturesUrls = this.picturesUrls.filter(
+      pUrl => pUrl !== url
+    );
   }
 
   private _filter(value: string): Group[] {
