@@ -2,11 +2,13 @@
   height: calc(100vh - 64px);
 }
 
-@media (max-width: 1280px) {
+@media (max-width: 599px) {
   .page-container {
     height: calc(100vh - 56px) !important;
   }
+}
 
+@media (max-width: 1280px) {
   .page-content {
       width: 100% !important;
   }
