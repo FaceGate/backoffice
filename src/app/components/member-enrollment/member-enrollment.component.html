@@ -29,7 +29,7 @@
 
         </div>
         <div class="upload-button">
-          <input [hidden]="true" id="input-file" type='file' multiple (change)="uploadPictures($event.target.files)">
+          <input [hidden]="true" id="input-file" type='file' accept="image/*" multiple (change)="uploadPictures($event.target.files)">
           <label for="input-file" class="mat-raised-button">Import pictures</label>
         </div>
       </div>
