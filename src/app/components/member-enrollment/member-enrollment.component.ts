@@ -5,7 +5,7 @@ import { FormControl } from '@angular/forms';
 import { startWith, map } from 'rxjs/operators';
 import { GroupService } from 'src/app/services/group.service';
 import { MatChipInputEvent, MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material';
-import { Member } from 'src/app/class/member/member';
+import { Member, Pictures } from 'src/app/class/member/member';
 import { MemberService } from 'src/app/services/member.service';
 import { Router } from '@angular/router';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
@@ -22,12 +22,16 @@ export class MemberEnrollmentComponent implements OnInit {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   filteredGroups: Observable<Group[]>;
   allGroups: Group[];
-  picturesUrls: string[] = [];
+  //picturesUrls: Pictures[] = this.member.profilePictures;
 
   @ViewChild('groupInput') groupInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
-  constructor(private router: Router, private memberService: MemberService, private groupService: GroupService) {
+  constructor(
+    private router: Router,
+    private memberService: MemberService,
+    private groupService: GroupService
+  ) {
     this.filteredGroups = this.groupCtrl.valueChanges.pipe(
       startWith(null),
       map((name: string | null) => name ? this._filter(name) : this.allGroups.slice()));
@@ -77,24 +81,11 @@ export class MemberEnrollmentComponent implements OnInit {
   }
 
   uploadPictures(files: FileList) {
-    if (files && files.length) {
-      for (let i = 0; i < files.length; i++) {
-        var reader = new FileReader();
-        var file = files[i];
-        if (file.type.includes("image")) {
-          reader.readAsDataURL(file);
-          reader.onload = (event: any) => {
-            this.picturesUrls.push(event.target["result"]);
-          };
-        }
-      }
-    }
+    this.member.addPictures(files);
   }
 
-  removePicture (url: string) {
-    this.picturesUrls = this.picturesUrls.filter(
-      pUrl => pUrl !== url
-    );
+  removePicture(picture: Pictures) {
+    this.member.removePicure(picture);
   }
 
   private _filter(value: string): Group[] {

@@ -7,21 +7,20 @@
         Cancel
       </button>
     </mat-toolbar>
-
     <div class="member-detail-form">
 
       <div class="upload-container">
 
-        <div *ngIf="picturesUrls.length === 0" class="upload-picture">
+        <div *ngIf="!member.profilePictures.length" class="upload-picture">
           <img src="../../../assets/file-upload.png" height="auto" width="250px" />
         </div>
 
-        <div *ngIf="picturesUrls.length > 0" class="member-preview-container">
+        <div *ngIf="member.profilePictures.length" class="member-preview-container">
 
-          <mat-card class="card-preview" *ngFor="let picturesUrl of picturesUrls">
-            <img mat-card-image [src]="picturesUrl" alt="photos">
+          <mat-card class="card-preview" *ngFor="let picture of member.profilePictures">
+            <img mat-card-image [src]="picture.url" alt="photos">
             <mat-card-actions>
-              <button mat-button (click)="removePicture(picturesUrl)" color="warn">
+              <button mat-button (click)="removePicture(picture)" color="warn">
                 <mat-icon aria-label="delete picture">delete</mat-icon>
                 Remove
               </button>
