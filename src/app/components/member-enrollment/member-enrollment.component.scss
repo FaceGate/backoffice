@@ -1,23 +1,84 @@
 .page-container {
-    height: 93vh;
-    overflow: overlay;
+  height: calc(100vh - 64px);
+}
+
+@media (max-width: 599px) {
+  .page-container {
+    height: calc(100vh - 56px) !important;
+  }
+}
+
+@media (max-width: 1280px) {
+  .page-content {
+      width: 100% !important;
+  }
 }
 
 .page-content {
-    --cr-card-elevation_-_box-shadow: rgba(60, 64, 67, 0.3) 0 1px 2px 0, rgba(60, 64, 67, 0.15) 0 1px 3px 1px;
-    --cr-card-elevation_-_background-image: initial;
-    background-image: var(--cr-card-elevation_-_background-image);
-    box-shadow: var(--cr-card-elevation_-_box-shadow);
-    background-color: white;
-    box-sizing: border-box;
-    margin: auto;
-    min-height: 100%;
-    padding-bottom: 64px;
-    width: 850px;
+  width: 55%;
+  --cr-card-elevation_-_box-shadow: rgba(60, 64, 67, 0.3) 0 1px 2px 0, rgba(60, 64, 67, 0.15) 0 1px 3px 1px;
+  --cr-card-elevation_-_background-image: initial;
+  background-image: var(--cr-card-elevation_-_background-image);
+  box-shadow: var(--cr-card-elevation_-_box-shadow);
+  background-color: white;
+  box-sizing: border-box;
+  margin: auto;
+  min-height: 100%;
+  padding-bottom: 64px;
 }
 
 .member-detail-form {
-    display: flex;
-    flex-direction: column;
-    padding: 20px 20px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 20px;
+}
+
+.upload-container {
+  width: 80%;
+  margin: auto;
+  flex-direction: column;
+  padding: 20px 20px;
+  background-color: #eae8fa;
+  border-radius: 25px;
+  border-style: dashed;
+  border-width: 2px;
+  border-color: #5464ef;
+
+  .upload-picture {
+    text-align: center;
+
+    img {
+      width: 250px;
+      height: auto;
+    }
+  }
+
+  .upload-button {
+    text-align: center;
+  }
+}
+
+.member-preview-container {
+  --extensions-card-width: 128px;
+  --grid-gutter: 12px;
+  --max-columns: 6;
+  display: grid;
+  grid-column-gap: var(--grid-gutter);
+  grid-row-gap: var(--grid-gutter);
+  grid-template-columns: repeat(auto-fill, var(--extensions-card-width));
+  max-width: calc(var(--extensions-card-width) * var(--max-columns) + var(--grid-gutter) * var(--max-columns));
+  margin-bottom: 12px;
+}
+
+.mat-card {
+  padding: 0 16px 16px 16px;
+}
+
+.mat-card-actions {
+  text-align: center;
+  padding: 0 !important;
+}
+
+.mat-card-image {
+  margin: 0 -16px 0 -16px !important;
 }

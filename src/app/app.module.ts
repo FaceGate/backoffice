@@ -22,7 +22,8 @@ import {
   MatAutocompleteModule,
   MatDatepickerModule,
   MatNativeDateModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatProgressBarModule
 } from '@angular/material';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { MembersComponent } from './components/members/members.component';
@@ -99,7 +100,8 @@ const appRoutes: Routes = [
     MatAutocompleteModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatProgressBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

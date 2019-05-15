@@ -5,7 +5,7 @@ import { FormControl } from '@angular/forms';
 import { startWith, map } from 'rxjs/operators';
 import { GroupService } from 'src/app/services/group.service';
 import { MatChipInputEvent, MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material';
-import { Member } from 'src/app/class/member/member';
+import { Member, Pictures } from 'src/app/class/member/member';
 import { MemberService } from 'src/app/services/member.service';
 import { Router } from '@angular/router';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
@@ -16,17 +16,22 @@ import { ENTER, COMMA } from '@angular/cdk/keycodes';
   styleUrls: ['./member-enrollment.component.scss']
 })
 export class MemberEnrollmentComponent implements OnInit {
-  
+
   member: Member = new Member;
   groupCtrl = new FormControl;
   separatorKeysCodes: number[] = [ENTER, COMMA];
   filteredGroups: Observable<Group[]>;
   allGroups: Group[];
+  //picturesUrls: Pictures[] = this.member.profilePictures;
 
   @ViewChild('groupInput') groupInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
-  constructor(private router: Router, private memberService: MemberService, private groupService: GroupService) {
+  constructor(
+    private router: Router,
+    private memberService: MemberService,
+    private groupService: GroupService
+  ) {
     this.filteredGroups = this.groupCtrl.valueChanges.pipe(
       startWith(null),
       map((name: string | null) => name ? this._filter(name) : this.allGroups.slice()));
@@ -73,6 +78,14 @@ export class MemberEnrollmentComponent implements OnInit {
       //TODO NOTIFY FORM ERROR
       console.log("enrollment failed !")
     }
+  }
+
+  uploadPictures(files: FileList) {
+    this.member.addPictures(files);
+  }
+
+  removePicture(picture: Pictures) {
+    this.member.removePicure(picture);
   }
 
   private _filter(value: string): Group[] {
