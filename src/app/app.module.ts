@@ -46,12 +46,19 @@ const appRoutes: Routes = [
     redirectTo: '/members',
     pathMatch: 'full'
   },
-  { path: 'members', component: MembersComponent },
-  { path: 'members/:id', component: MemberDetailComponent },
-  { path: 'enrollment', component: MemberEnrollmentComponent },
-  { path: 'groups', component: GroupsComponent },
-  { path: 'groups/:id', component: GroupDetailsComponent },
-  { path: 'groupsCreation', component: GroupCreationComponent },
+  { path: 'members', children: [
+    { path: '', redirectTo: '/members/list', pathMatch: 'full' },
+    { path: 'list', component: MembersComponent },
+    { path: 'enrollment', component: MemberEnrollmentComponent },
+    { path: ':id', component: MemberDetailComponent },
+  ]},
+  
+  { path: 'groups', children: [
+    { path: '', redirectTo: '/groups/list', pathMatch: 'full' },
+    { path: 'list', component: GroupsComponent },
+    { path: 'creation', component: GroupCreationComponent },
+    { path: ':id', component: GroupDetailsComponent },
+  ]},
   { path: 'areas', component: AreasComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
