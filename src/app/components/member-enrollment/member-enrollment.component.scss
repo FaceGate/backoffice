@@ -1,5 +1,6 @@
 .page-container {
   height: calc(100vh - 64px);
+  overflow: overlay;
 }
 
 @media (max-width: 599px) {

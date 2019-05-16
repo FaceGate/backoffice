@@ -1,6 +1,7 @@
 <div class="page-container">
 
   <div class="page-content">
+
     <mat-toolbar class="member-detail-toolbar">
       <button mat-button routerLink="/members" color="warn">
         <mat-icon aria-label="Back to members list">arrow_back</mat-icon>
@@ -68,7 +69,8 @@
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
 
-      <button mat-stroked-button color="primary" (click)="enrolMember()">Validate enrollment</button>
+      <button mat-stroked-button color="primary" (click)="enrolMember()" *ngIf="!id" [disabled]="checkFormValidity()">Validate enrollment</button>
+      <button mat-stroked-button color="primary" (click)="updateMember()" *ngIf="id" [disabled]="checkFormValidity()">Save</button>
     </div>
   </div>
 

@@ -7,7 +7,7 @@ import { GroupService } from 'src/app/services/group.service';
 import { MatChipInputEvent, MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material';
 import { Member, Pictures } from 'src/app/class/member/member';
 import { MemberService } from 'src/app/services/member.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 
 @Component({
@@ -17,30 +17,40 @@ import { ENTER, COMMA } from '@angular/cdk/keycodes';
 })
 export class MemberEnrollmentComponent implements OnInit {
 
-  member: Member = new Member;
+  member: Member;
   groupCtrl = new FormControl;
   separatorKeysCodes: number[] = [ENTER, COMMA];
   filteredGroups: Observable<Group[]>;
   allGroups: Group[];
-  //picturesUrls: Pictures[] = this.member.profilePictures;
+  formValidity: boolean;
 
   @ViewChild('groupInput') groupInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
+  private id: number;
+  private sub: any;
+
   constructor(
     private router: Router,
+    public route: ActivatedRoute,
     private memberService: MemberService,
     private groupService: GroupService
   ) {
+    this.sub = this.route.params.subscribe(params => {
+      this.id = +params.id;
+    });
+
     this.filteredGroups = this.groupCtrl.valueChanges.pipe(
       startWith(null),
       map((name: string | null) => name ? this._filter(name) : this.allGroups.slice()));
   }
 
   ngOnInit() {
+    this.member = this.id ? this.memberService.getMember(this.id) : new Member;
     this.allGroups = this.groupService.getGroups();
   }
 
+  //auto-complete functions//
   addGroup(event: MatChipInputEvent): void {
     if (!this.matAutocomplete.isOpen) {
       const input = event.input;
@@ -69,6 +79,11 @@ export class MemberEnrollmentComponent implements OnInit {
       this.member.groups.splice(index, 1);
     }
   }
+  ////////////////////////////
+
+  checkFormValidity(): boolean {
+    return !this.memberService.checkMemberFields(this.member);
+  }
 
   enrolMember(): void {
     if (this.memberService.addMember(this.member)) {
@@ -78,6 +93,11 @@ export class MemberEnrollmentComponent implements OnInit {
       //TODO NOTIFY FORM ERROR
       console.log("enrollment failed !")
     }
+  }
+
+  updateMember(): void {
+    this.memberService.updateMember(this.member);
+    this.router.navigate(["/members"]);
   }
 
   uploadPictures(files: FileList) {

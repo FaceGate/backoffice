@@ -32,7 +32,8 @@
         </mat-autocomplete>
       </mat-form-field>
 
-      <button mat-stroked-button color="primary" (click)="updateGroup()">Save</button>
+      <button mat-stroked-button color="primary" (click)="createGroup()" *ngIf="!id" [disabled]="checkFormValidity()">Create new group</button>
+      <button mat-stroked-button color="primary" (click)="updateGroup()" *ngIf="id" [disabled]="checkFormValidity()">Save</button>
 
     </div>
 

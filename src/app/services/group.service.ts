@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Group} from '../class/group/group';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
@@ -22,12 +23,11 @@ export class GroupService {
     }
   ];
 
-  constructor() {
+  constructor(private snackBar: MatSnackBar) {
   }
 
-  private CheckGroupObject(group: Group): boolean {
+  public CheckGroupFields(group: Group): boolean {
     if (!group.name || group.areas.length === 0) {
-      alert('Un champ est manquant');
       return false;
     }
     return true;
@@ -38,24 +38,36 @@ export class GroupService {
   }
 
   getGroup(id: number): Group {
-    return this.groups.find(group => group.id === id);
+    //return object deep copy
+    return Object.create(this.groups.find(group => group.id === id));
   }
 
   addGroup(group: Group): boolean {
-    if (this.CheckGroupObject(group)) {
+    if (this.CheckGroupFields(group)) {
       if (!group.id && this.groups.length > 0) {
         group.id = this.groups[this.groups.length - 1].id + 1;
       } else {
         group.id = 1;
       }
       this.groups.push(group);
+      this.snackBar.open(`${group.name} created 🎉`, null, {
+        duration: 3000,
+        verticalPosition: "bottom",
+        horizontalPosition: "right"
+      });
       return true;
+    } else {
+      this.snackBar.open("Missing Field !", null, {
+        duration: 3000,
+        verticalPosition: "bottom",
+        horizontalPosition: "right"
+      });
+      return false;
     }
-    return false;
   }
 
   updateGroup(group: Group): void {
-    if (this.CheckGroupObject(group)) {
+    if (this.CheckGroupFields(group)) {
       const index = this.groups.findIndex(oldGroup => oldGroup.id === group.id);
       this.groups[index] = group;
     }

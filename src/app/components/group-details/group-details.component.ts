@@ -1,14 +1,14 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {AreaService} from '../../services/area.service';
-import {ActivatedRoute} from '@angular/router';
-import {Group} from '../../class/group/group';
-import {GroupService} from '../../services/group.service';
-import {Observable} from 'rxjs';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {FormControl} from '@angular/forms';
-import {MatAutocomplete, MatChipInputEvent, MatAutocompleteSelectedEvent} from '@angular/material';
-import {map, startWith} from 'rxjs/operators';
-import {Area} from '../../class/area/area';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AreaService } from '../../services/area.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Group } from '../../class/group/group';
+import { GroupService } from '../../services/group.service';
+import { Observable } from 'rxjs';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { FormControl } from '@angular/forms';
+import { MatAutocomplete, MatChipInputEvent, MatAutocompleteSelectedEvent } from '@angular/material';
+import { map, startWith } from 'rxjs/operators';
+import { Area } from '../../class/area/area';
 
 @Component({
   selector: 'app-group-details',
@@ -29,7 +29,12 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
   private id: number;
   private sub: any;
 
-  constructor(public route: ActivatedRoute, private groupService: GroupService, private areaService: AreaService) {
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private groupService: GroupService,
+    private areaService: AreaService
+  ) {
     this.sub = this.route.params.subscribe(params => {
       this.id = +params.id;
     });
@@ -40,7 +45,7 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.group = this.groupService.getGroup(this.id);
+    this.group = this.id ? this.groupService.getGroup(this.id) : new Group;
     this.allAreas = this.areaService.getAreas();
   }
 
@@ -48,6 +53,7 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
+  //auto-complete functions//
   addArea(event: MatChipInputEvent): void {
     if (!this.matAutocomplete.isOpen) {
       const input = event.input;
@@ -76,9 +82,23 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
       this.group.areas.splice(index, 1);
     }
   }
+  ////////////////////////////
+
+  checkFormValidity(): boolean {
+    return !this.groupService.CheckGroupFields(this.group);
+  }
 
   updateGroup(): void {
     this.groupService.updateGroup(this.group);
+  }
+
+  createGroup() {
+    if (this.groupService.addGroup(this.group)) {
+      console.log("Group created !");
+      this.router.navigate(["/groups"]);
+    } else {
+      console.log("Group creation failed !");
+    }
   }
 
   private _filter(value: string): Area[] {
