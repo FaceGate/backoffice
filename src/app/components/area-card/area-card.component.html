@@ -1,6 +1,6 @@
 <mat-card class="example-card">
   <mat-card-header>
-    <mat-card-title class="group-card-title">
+    <mat-card-title>
       {{ area.name }}
     </mat-card-title>
     <mat-card-subtitle>
@@ -12,8 +12,7 @@
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-actions class="action-container">
-    <div class="button-container">
-    </div>
+    <div></div>
     <div>
       <mat-slide-toggle color="primary" [(ngModel)]="area.isActive" (click)="updateArea(area)"></mat-slide-toggle>
     </div>

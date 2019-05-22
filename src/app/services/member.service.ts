@@ -42,13 +42,8 @@ export class MemberService {
     this.members.push(fakeMember)
   }
 
-  private checkMemberObject(member: Member): boolean {
-    if (!member.firstName || !member.lastName || member.groups.length === 0) {
-      this.snackBar.open("Missing Field !", null, {
-        duration: 3000,
-        verticalPosition: "bottom",
-        horizontalPosition: "right"
-      });
+  public checkMemberFields(member: Member): boolean {
+    if (member.profilePictures.length === 0 || !member.firstName || !member.lastName || member.groups.length === 0 || !member.expirationDate) {
       return false;
     }
     return true;
@@ -59,15 +54,25 @@ export class MemberService {
   }
 
   public getMember(id: number): Member {
-    return this.members.find(member => member.id === id);
+    //return object deep copy
+    return Object.create(this.members.find(member => member.id === id));
   }
 
   public getMembersFromGroup(id: number): Member[] {
-    return this.members.filter(member => member.groups.filter(group => group.id === id));
+    return this.getMembers().filter(
+      element => {
+        var found: boolean = false;
+        element.groups.forEach(group => {
+          if (group.id === id)
+            found = true;
+        })
+        return found;
+      }
+    );
   }
 
   public addMember(member: Member): boolean {
-    if (this.checkMemberObject(member)) {
+    if (this.checkMemberFields(member)) {
       // const errorKey = 'TOO_MANY_FACES';
       // alert(ERRORS[errorKey]);
       if (!member.id && this.members.length > 0) {
@@ -82,12 +87,18 @@ export class MemberService {
         horizontalPosition: "right"
       });
       return true;
+    } else {
+      this.snackBar.open("Missing Field !", null, {
+        duration: 3000,
+        verticalPosition: "bottom",
+        horizontalPosition: "right"
+      });
+      return false;
     }
-    return false;
   }
 
   public updateMember(member: Member): void {
-    if (this.checkMemberObject(member)) {
+    if (this.checkMemberFields(member)) {
       const index = this.members.findIndex(oldMember => oldMember.id === member.id);
       this.members[index] = member;
     }
