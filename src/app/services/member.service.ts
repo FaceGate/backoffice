@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Member } from '../class/member/member';
-import { MatSnackBar } from '@angular/material';
+import {Injectable} from '@angular/core';
+import {Member, Pictures} from '../class/member/member';
+import {MatSnackBar} from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +8,19 @@ import { MatSnackBar } from '@angular/material';
 export class MemberService {
   public member: Member;
   members: Member[] = [];
+  uploadErrors = {
+    "NO_FACE": "Aucun visage n'a été detecté sur cette photo",
+    "TOO_MANY_FACES": "Plusieurs visages ont été détectés sur cette photo",
+    "NOT_SAME_PERSON": "Nous pensons que cette photo ne correspond pas à la personne précédente",
+    "DUPLICATE_IMAGE": "Cette photo est identique a une photo précédemment envoyée"
+  };
+
+  fakeUploadResponse = {
+    "image_url": "http://www.fredzone.org/wp-content/uploads/2019/05/prise-en-main-oneplus-7-pro-5.jpg",
+    "valid": true,
+    "error": "NO_FACE"
+  }
+
 
   constructor(private snackBar: MatSnackBar) {
     //mock data
@@ -107,5 +120,46 @@ export class MemberService {
   public removeMember(member: Member): void {
     const index = this.members.indexOf(member);
     this.members.splice(index, 1);
+  }
+
+  public addPictures(pictures: Pictures[], files: FileList): Pictures[] {
+    if (files && files.length) {
+      for (let i = 0; i < files.length; i++) {
+        var reader = new FileReader();
+        var file = files[i];
+        if (file.type.includes("image")) {
+          reader.readAsDataURL(file);
+          if (this.verifyPicture(event.target["result"])) {
+            reader.onload = (event: any) => {
+              pictures.push({
+                id: pictures.length,
+                url: event.target["result"]
+              });
+            };
+          }
+        }
+      }
+    }
+
+    return pictures;
+  }
+
+  public removePicure(pictures: Pictures[], picture: Pictures): Pictures[] {
+    return pictures.splice(pictures.indexOf(picture), 1);
+  }
+
+  public verifyPicture(image_url: string): string | null {
+    // TODO upload picture
+    if (!this.fakeUploadResponse.valid) {
+      this.snackBar.open(`${this.uploadErrors[this.fakeUploadResponse.error]} ❌`, null, {
+        duration: 3000,
+        verticalPosition: "bottom",
+        horizontalPosition: "right"
+      });
+
+      return null;
+    }
+
+    return this.fakeUploadResponse.image_url;
   }
 }

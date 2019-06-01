@@ -24,6 +24,7 @@ export class MemberEnrollmentComponent implements OnInit {
   allGroups: Group[];
   formValidity: boolean;
 
+
   @ViewChild('groupInput') groupInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
@@ -101,11 +102,13 @@ export class MemberEnrollmentComponent implements OnInit {
   }
 
   uploadPictures(files: FileList) {
-    this.member.addPictures(files);
+    //this.member.addPictures(files);
+    this.member.profilePictures = this.memberService.addPictures(this.member.profilePictures, files);
   }
 
   removePicture(picture: Pictures) {
-    this.member.removePicure(picture);
+    //this.member.removePicure(picture);
+    this.member.profilePictures = this.memberService.removePicure(this.member.profilePictures, picture);
   }
 
   private _filter(value: string): Group[] {
