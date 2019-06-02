@@ -1,0 +1,4 @@
+export default {
+    cloud_name: 'AZERTY',
+    upload_preset: '1X2X3X4'
+};

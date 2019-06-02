@@ -1,28 +1,22 @@
-import {Injectable} from '@angular/core';
-import {Member, Pictures} from '../class/member/member';
-import {MatSnackBar} from '@angular/material';
+import { Injectable } from '@angular/core';
+import { Member, Pictures } from '../class/member/member';
+import { MatSnackBar } from '@angular/material';
+import { HttpClient } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { ERRORS_MESSAGE } from "../constants/errors";
 
 @Injectable({
   providedIn: 'root'
 })
 export class MemberService {
   public member: Member;
-  members: Member[] = [];
-  uploadErrors = {
-    "NO_FACE": "Aucun visage n'a été detecté sur cette photo",
-    "TOO_MANY_FACES": "Plusieurs visages ont été détectés sur cette photo",
-    "NOT_SAME_PERSON": "Nous pensons que cette photo ne correspond pas à la personne précédente",
-    "DUPLICATE_IMAGE": "Cette photo est identique a une photo précédemment envoyée"
-  };
+  public members: Member[] = [];
 
-  fakeUploadResponse = {
-    "image_url": "http://www.fredzone.org/wp-content/uploads/2019/05/prise-en-main-oneplus-7-pro-5.jpg",
-    "valid": true,
-    "error": "NO_FACE"
-  }
-
-
-  constructor(private snackBar: MatSnackBar) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private http: HttpClient
+  ) {
     //mock data
     let fakeMember = new Member(
       1,
@@ -32,7 +26,8 @@ export class MemberService {
       [
         {
           id: 1,
-          url: "https://pic.clubic.com/v1/images/1691560/raw"
+          url: "https://res.cloudinary.com/facegate/image/upload/v1559442621/mark2_jqncfd.jpg",
+          display_url: "http://res.cloudinary.com/facegate/image/upload/c_fill,g_face,h_250,w_250/mark2_jlylnz"
         }
       ],
       true,
@@ -52,7 +47,7 @@ export class MemberService {
         }
       ]);
 
-    this.members.push(fakeMember)
+    this.members.push(fakeMember);
   }
 
   public checkMemberFields(member: Member): boolean {
@@ -86,8 +81,6 @@ export class MemberService {
 
   public addMember(member: Member): boolean {
     if (this.checkMemberFields(member)) {
-      // const errorKey = 'TOO_MANY_FACES';
-      // alert(ERRORS[errorKey]);
       if (!member.id && this.members.length > 0) {
         member.id = this.members[this.members.length - 1].id + 1;
       } else {
@@ -95,14 +88,14 @@ export class MemberService {
       }
       this.members.push(member);
       this.snackBar.open(`New joiner: ${member.firstName} ${member.lastName} 🎉`, null, {
-        duration: 3000,
+        duration: 4200,
         verticalPosition: "bottom",
         horizontalPosition: "right"
       });
       return true;
     } else {
       this.snackBar.open("Missing Field !", null, {
-        duration: 3000,
+        duration: 4200,
         verticalPosition: "bottom",
         horizontalPosition: "right"
       });
@@ -122,44 +115,37 @@ export class MemberService {
     this.members.splice(index, 1);
   }
 
-  public addPictures(pictures: Pictures[], files: FileList): Pictures[] {
-    if (files && files.length) {
-      for (let i = 0; i < files.length; i++) {
-        var reader = new FileReader();
-        var file = files[i];
-        if (file.type.includes("image")) {
-          reader.readAsDataURL(file);
-          if (this.verifyPicture(event.target["result"])) {
-            reader.onload = (event: any) => {
-              pictures.push({
-                id: pictures.length,
-                url: event.target["result"]
-              });
-            };
-          }
-        }
-      }
-    }
-
+  public addPicture(pictures: Pictures[], image_url: string, display_url?: string): Pictures[] {
+    pictures.push({
+      id: pictures.length,
+      url: image_url,
+      display_url: display_url || null
+    });
     return pictures;
   }
 
+  //TODO: use when database
   public removePicure(pictures: Pictures[], picture: Pictures): Pictures[] {
-    return pictures.splice(pictures.indexOf(picture), 1);
+    return pictures;
   }
 
-  public verifyPicture(image_url: string): string | null {
-    // TODO upload picture
-    if (!this.fakeUploadResponse.valid) {
-      this.snackBar.open(`${this.uploadErrors[this.fakeUploadResponse.error]} ❌`, null, {
-        duration: 3000,
-        verticalPosition: "bottom",
-        horizontalPosition: "right"
-      });
+  public verifyPicture(pictures: Pictures[], image_url: string): Observable<any> {
+    let tmpImageUrls: string[] = pictures.map( pic => pic.url );
+    tmpImageUrls.push(image_url);
+    return this.http.post(`/api/verify`, { "image_urls" : tmpImageUrls })
+      .pipe(
+        catchError(error => {
+          console.error(error);
+          return throwError('Error');
+        })
+      );
+  }
 
-      return null;
-    }
-
-    return this.fakeUploadResponse.image_url;
+  public raiseError(error: string): void {
+    this.snackBar.open(ERRORS_MESSAGE[error], null, {
+      duration: 4200,
+      verticalPosition: "bottom",
+      horizontalPosition: "right"
+    });
   }
 }

@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -36,12 +37,15 @@ import { GroupDetailsComponent } from './components/group-details/group-details.
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AreaCardComponent } from './components/area-card/area-card.component';
 import { MemberEnrollmentComponent } from './components/member-enrollment/member-enrollment.component';
+import { CloudinaryModule } from '@cloudinary/angular-5.x';
+import * as  Cloudinary from 'cloudinary-core';
+import cloudinaryConfiguration from './config';
 
 //TODO refacto with children routing
 const appRoutes: Routes = [
   {
     path: '',
-    redirectTo: '/members',
+    redirectTo: '/members/list',
     pathMatch: 'full'
   },
   { path: 'members', children: [
@@ -72,6 +76,7 @@ const appRoutes: Routes = [
     ),
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
@@ -91,7 +96,8 @@ const appRoutes: Routes = [
     MatDatepickerModule,
     MatNativeDateModule,
     MatSnackBarModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    CloudinaryModule.forRoot(Cloudinary, cloudinaryConfiguration)
   ],
   declarations: [
     AppComponent,

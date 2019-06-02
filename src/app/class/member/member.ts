@@ -3,6 +3,7 @@ import {Group} from '../group/group';
 export interface Pictures {
   id: number;
   url: string;
+  display_url: string;
 }
 
 export class Member {
