@@ -51,14 +51,14 @@ export class GroupService {
       }
       this.groups.push(group);
       this.snackBar.open(`${group.name} created 🎉`, null, {
-        duration: 3000,
+        duration: 4200,
         verticalPosition: "bottom",
         horizontalPosition: "right"
       });
       return true;
     } else {
       this.snackBar.open("Missing Field !", null, {
-        duration: 3000,
+        duration: 4200,
         verticalPosition: "bottom",
         horizontalPosition: "right"
       });

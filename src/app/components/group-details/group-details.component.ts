@@ -26,7 +26,7 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
   @ViewChild('areaInput') areaInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
-  private id: number;
+  public id: number;
   private sub: any;
 
   constructor(
@@ -94,10 +94,9 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
 
   createGroup() {
     if (this.groupService.addGroup(this.group)) {
-      console.log("Group created !");
       this.router.navigate(["/groups"]);
     } else {
-      console.log("Group creation failed !");
+      console.error("Group creation failed !");
     }
   }
 

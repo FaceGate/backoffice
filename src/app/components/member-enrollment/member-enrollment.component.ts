@@ -4,11 +4,12 @@ import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { startWith, map } from 'rxjs/operators';
 import { GroupService } from 'src/app/services/group.service';
-import { MatChipInputEvent, MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material';
+import { MatChipInputEvent, MatAutocompleteSelectedEvent, MatAutocomplete, MatSnackBar } from '@angular/material';
 import { Member, Pictures } from 'src/app/class/member/member';
 import { MemberService } from 'src/app/services/member.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
+import { CloudinaryService } from 'src/app/services/cloudinary.service';
 
 @Component({
   selector: 'app-member-enrollment',
@@ -23,18 +24,22 @@ export class MemberEnrollmentComponent implements OnInit {
   filteredGroups: Observable<Group[]>;
   allGroups: Group[];
   formValidity: boolean;
+  showLoader = false;
+
 
   @ViewChild('groupInput') groupInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
-  private id: number;
+  public id: number;
   private sub: any;
 
   constructor(
     private router: Router,
     public route: ActivatedRoute,
     private memberService: MemberService,
-    private groupService: GroupService
+    private groupService: GroupService,
+    private cloudinaryService: CloudinaryService,
+    private snackBar: MatSnackBar
   ) {
     this.sub = this.route.params.subscribe(params => {
       this.id = +params.id;
@@ -87,11 +92,10 @@ export class MemberEnrollmentComponent implements OnInit {
 
   enrolMember(): void {
     if (this.memberService.addMember(this.member)) {
-      console.log("enrollment successfull !");
       this.router.navigate(["/members"]);
     } else {
       //TODO NOTIFY FORM ERROR
-      console.log("enrollment failed !")
+      console.error("enrollment failed !")
     }
   }
 
@@ -100,12 +104,45 @@ export class MemberEnrollmentComponent implements OnInit {
     this.router.navigate(["/members"]);
   }
 
-  uploadPictures(files: FileList) {
-    this.member.addPictures(files);
+  newPicture(file: FileList): void {
+    if (file && file.length > 0) {
+      this.showLoader = true;
+      //upload to cloudinary
+      this.cloudinaryService.uploadPhoto(file[0])
+        .subscribe(res => {
+          this.verifyPicture(res.public_id, res.secure_url);
+        })
+    } else {
+      console.error('No image found !');
+    }
+  }
+
+  verifyPicture(public_id: string, image_url: string) {
+    this.memberService.verifyPicture(this.member.profilePictures, image_url)
+      .subscribe(res => {
+        let isValid = true;
+        res.forEach(element => {
+          if (!element.valid) {
+            isValid = false;
+            this.memberService.raiseError(element.error);
+            return;
+          }
+        });
+        if (isValid) {
+          const display_url = this.cloudinaryService.faceCrop(public_id);
+          this.member.profilePictures = this.memberService.addPicture(this.member.profilePictures, image_url, display_url);
+          this.snackBar.open("New picture validated 👏🏼", null, {
+            duration: 4200,
+            verticalPosition: "bottom",
+            horizontalPosition: "right"
+          });
+        }
+        this.showLoader = false;
+      })
   }
 
   removePicture(picture: Pictures) {
-    this.member.removePicure(picture);
+    this.member.profilePictures.splice(this.member.profilePictures.indexOf(picture), 1)
   }
 
   private _filter(value: string): Group[] {

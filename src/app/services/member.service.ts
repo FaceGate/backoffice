@@ -1,15 +1,22 @@
 import { Injectable } from '@angular/core';
-import { Member } from '../class/member/member';
+import { Member, Pictures } from '../class/member/member';
 import { MatSnackBar } from '@angular/material';
+import { HttpClient } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { ERRORS_MESSAGE } from "../constants/errors";
 
 @Injectable({
   providedIn: 'root'
 })
 export class MemberService {
   public member: Member;
-  members: Member[] = [];
+  public members: Member[] = [];
 
-  constructor(private snackBar: MatSnackBar) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private http: HttpClient
+  ) {
     //mock data
     let fakeMember = new Member(
       1,
@@ -19,7 +26,8 @@ export class MemberService {
       [
         {
           id: 1,
-          url: "https://pic.clubic.com/v1/images/1691560/raw"
+          url: "https://res.cloudinary.com/facegate/image/upload/v1559442621/mark2_jqncfd.jpg",
+          display_url: "http://res.cloudinary.com/facegate/image/upload/c_fill,g_face,h_250,w_250/mark2_jlylnz"
         }
       ],
       true,
@@ -39,7 +47,7 @@ export class MemberService {
         }
       ]);
 
-    this.members.push(fakeMember)
+    this.members.push(fakeMember);
   }
 
   public checkMemberFields(member: Member): boolean {
@@ -73,8 +81,6 @@ export class MemberService {
 
   public addMember(member: Member): boolean {
     if (this.checkMemberFields(member)) {
-      // const errorKey = 'TOO_MANY_FACES';
-      // alert(ERRORS[errorKey]);
       if (!member.id && this.members.length > 0) {
         member.id = this.members[this.members.length - 1].id + 1;
       } else {
@@ -82,14 +88,14 @@ export class MemberService {
       }
       this.members.push(member);
       this.snackBar.open(`New joiner: ${member.firstName} ${member.lastName} 🎉`, null, {
-        duration: 3000,
+        duration: 4200,
         verticalPosition: "bottom",
         horizontalPosition: "right"
       });
       return true;
     } else {
       this.snackBar.open("Missing Field !", null, {
-        duration: 3000,
+        duration: 4200,
         verticalPosition: "bottom",
         horizontalPosition: "right"
       });
@@ -107,5 +113,39 @@ export class MemberService {
   public removeMember(member: Member): void {
     const index = this.members.indexOf(member);
     this.members.splice(index, 1);
+  }
+
+  public addPicture(pictures: Pictures[], image_url: string, display_url?: string): Pictures[] {
+    pictures.push({
+      id: pictures.length,
+      url: image_url,
+      display_url: display_url || null
+    });
+    return pictures;
+  }
+
+  //TODO: use when database
+  public removePicure(pictures: Pictures[], picture: Pictures): Pictures[] {
+    return pictures;
+  }
+
+  public verifyPicture(pictures: Pictures[], image_url: string): Observable<any> {
+    let tmpImageUrls: string[] = pictures.map( pic => pic.url );
+    tmpImageUrls.push(image_url);
+    return this.http.post(`/api/verify`, { "image_urls" : tmpImageUrls })
+      .pipe(
+        catchError(error => {
+          console.error(error);
+          return throwError('Error');
+        })
+      );
+  }
+
+  public raiseError(error: string): void {
+    this.snackBar.open(ERRORS_MESSAGE[error], null, {
+      duration: 4200,
+      verticalPosition: "bottom",
+      horizontalPosition: "right"
+    });
   }
 }
