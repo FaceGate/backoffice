@@ -10,7 +10,7 @@ WORKDIR /ng-app
 
 COPY . .
 
-RUN npm run ng build -- --configuration=dev --output-path=dist
+RUN npm run config && npm run ng build -- --configuration=dev --output-path=dist
 
 
 ### STAGE 2: Setup ###
