@@ -8,7 +8,7 @@ Run `npm install` then `npm start` for a dev server. Navigate to `http://localho
 
 ## Cloudinary config file
 
-Run `cp example.env .env` and replace value for `cloud_name` and `upload_preset`.
+Run `cp example.env .env` and replace value for `cloud_name`, `upload_preset` and `api_url`.
 
 ## Build
 
@@ -16,7 +16,7 @@ Run `npm run config` to config Angular environnement variables then to build the
 
 ## Running docker image
 
-Run `docker run -p 80:80 facegate/backoffice:latest` to start the nginx server. Then navigate to [localhost](http://localhost)
+Run `docker run -p 80:80 --network facegate-net --env-file .env facegate/backoffice:develop` to start the nginx server. Then navigate to [localhost](http://localhost)
 
 ## Running unit tests
 

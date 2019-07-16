@@ -17,10 +17,10 @@ RUN npm run config && npm run ng build -- --configuration=dev --output-path=dist
 
 FROM nginx:alpine
 
-COPY ./nginx.conf /etc/nginx/conf.d/
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 
 RUN rm -rf /usr/share/nginx/html/*
 
 COPY --from=builder /ng-app/dist /usr/share/nginx/html
 
-ENTRYPOINT sed -i -e "s|{%API_URL%}|$API_URL|g" /etc/nginx/conf.d/nginx.conf ; nginx -g "daemon off;"
+ENTRYPOINT sed -i -e "s|{%API_URL%}|$API_URL|g" /etc/nginx/conf.d/default.conf ; nginx -g "daemon off;"
