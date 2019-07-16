@@ -23,4 +23,4 @@ RUN rm -rf /usr/share/nginx/html/*
 
 COPY --from=builder /ng-app/dist /usr/share/nginx/html
 
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT sed -i -e "s|{%API_URL%}|$API_URL|g" /etc/nginx/conf.d/nginx.conf ; nginx -g "daemon off;"
