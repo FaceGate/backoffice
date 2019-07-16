@@ -39,7 +39,12 @@ import { AreaCardComponent } from './components/area-card/area-card.component';
 import { MemberEnrollmentComponent } from './components/member-enrollment/member-enrollment.component';
 import { CloudinaryModule } from '@cloudinary/angular-5.x';
 import * as  Cloudinary from 'cloudinary-core';
-import cloudinaryConfiguration from './config';
+import { environment } from 'src/environments/environment';
+
+export const cloudinaryConfiguration = {
+  cloud_name: environment.cloud_name,
+  upload_preset: environment.upload_preset
+};
 
 //TODO refacto with children routing
 const appRoutes: Routes = [
