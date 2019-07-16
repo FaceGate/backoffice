@@ -130,13 +130,14 @@ export class MemberService {
   }
 
   public verifyPicture(pictures: Pictures[], image_url: string): Observable<any> {
-    let tmpImageUrls: string[] = pictures.map( pic => pic.url );
+    let tmpImageUrls: string[] = pictures.map(pic => pic.url);
     tmpImageUrls.push(image_url);
-    return this.http.post(`/api/verify`, { "image_urls" : tmpImageUrls })
+    return this.http.post(`/api/verify`, { "image_urls": tmpImageUrls })
       .pipe(
         catchError(error => {
-          console.error(error);
-          return throwError('Error');
+          let errMsg = (error.message) ? error.message : error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+          console.error(errMsg);
+          return Observable.throw(error);
         })
       );
   }

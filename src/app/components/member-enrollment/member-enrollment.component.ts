@@ -119,26 +119,36 @@ export class MemberEnrollmentComponent implements OnInit {
 
   verifyPicture(public_id: string, image_url: string) {
     this.memberService.verifyPicture(this.member.profilePictures, image_url)
-      .subscribe(res => {
-        let isValid = true;
-        res.forEach(element => {
-          if (!element.valid) {
-            isValid = false;
-            this.memberService.raiseError(element.error);
-            return;
+      .subscribe(
+        (res) => {
+          let isValid = true;
+          res.forEach(element => {
+            if (!element.valid) {
+              isValid = false;
+              this.memberService.raiseError(element.error);
+              return;
+            }
+          });
+          if (isValid) {
+            const display_url = this.cloudinaryService.faceCrop(public_id);
+            this.member.profilePictures = this.memberService.addPicture(this.member.profilePictures, image_url, display_url);
+            this.snackBar.open("New picture validated 👏🏼", null, {
+              duration: 4200,
+              verticalPosition: "bottom",
+              horizontalPosition: "right"
+            });
           }
-        });
-        if (isValid) {
-          const display_url = this.cloudinaryService.faceCrop(public_id);
-          this.member.profilePictures = this.memberService.addPicture(this.member.profilePictures, image_url, display_url);
-          this.snackBar.open("New picture validated 👏🏼", null, {
+          this.showLoader = false;
+        },
+        (err) => {
+          this.snackBar.open("Error during exchange with the server ⚰️ !", null, {
             duration: 4200,
             verticalPosition: "bottom",
             horizontalPosition: "right"
           });
+          this.showLoader = false;
         }
-        this.showLoader = false;
-      })
+      )
   }
 
   removePicture(picture: Pictures) {
