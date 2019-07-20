@@ -1,7 +1,9 @@
+require('dotenv').config();
+
 const PROXY_CONFIG = [
   {
     context: '/api',
-    target: "http://localhost:8000",
+    target: process.env.API_URL,
     secure: false,
     "pathRewrite": {
       "^/api": ""
