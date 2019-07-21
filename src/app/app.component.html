@@ -1,6 +1,6 @@
-<mat-sidenav-container fullscreen>
+<mat-sidenav-container (window:resize)="onResize($event, sidenav)" fullscreen>
 
-  <mat-sidenav class="sidenav" #sidenav mode="side" opened>
+  <mat-sidenav class="sidenav" #sidenav mode="{{ mode }}" opened>
     <app-side-nav></app-side-nav>
   </mat-sidenav>
 

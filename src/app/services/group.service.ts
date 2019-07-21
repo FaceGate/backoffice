@@ -50,20 +50,21 @@ export class GroupService {
         group.id = 1;
       }
       this.groups.push(group);
-      this.snackBar.open(`${group.name} created 🎉`, null, {
-        duration: 4200,
-        verticalPosition: "bottom",
-        horizontalPosition: "right"
-      });
+      this.openSnackBar(`${group.name} created 🎉`);
       return true;
     } else {
-      this.snackBar.open("Missing Field !", null, {
-        duration: 4200,
-        verticalPosition: "bottom",
-        horizontalPosition: "right"
-      });
+      this.openSnackBar("Missing Field !");
       return false;
     }
+  }
+
+  private openSnackBar(message: string) {
+    this.snackBar.open(message, null, {
+      duration: 4200,
+      verticalPosition: "top",
+      horizontalPosition: "right",
+      panelClass: ['custom-snack-bar']
+    });
   }
 
   updateGroup(group: Group): void {

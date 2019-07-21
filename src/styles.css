@@ -5,3 +5,12 @@ body {
     font-family: Roboto, Arial, sans-serif;
     margin: 0;
 }
+
+.cdk-global-overlay-wrapper {
+    align-items: flex-start !important;
+    justify-content: flex-end !important;
+    margin-top: 50px !important;
+}
+
+.custom-snack-bar {
+}

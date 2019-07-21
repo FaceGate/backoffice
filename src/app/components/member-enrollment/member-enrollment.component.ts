@@ -132,23 +132,24 @@ export class MemberEnrollmentComponent implements OnInit {
           if (isValid) {
             const display_url = this.cloudinaryService.faceCrop(public_id);
             this.member.profilePictures = this.memberService.addPicture(this.member.profilePictures, image_url, display_url);
-            this.snackBar.open("New picture validated 👏🏼", null, {
-              duration: 4200,
-              verticalPosition: "bottom",
-              horizontalPosition: "right"
-            });
+            this.openSnackBar("New picture validated 👏🏼");
           }
           this.showLoader = false;
         },
         (err) => {
-          this.snackBar.open("Error during exchange with the server ⚰️ !", null, {
-            duration: 4200,
-            verticalPosition: "bottom",
-            horizontalPosition: "right"
-          });
+          this.openSnackBar("Error during exchange with the server ⚰️");
           this.showLoader = false;
         }
       )
+  }
+
+  private openSnackBar(message: string) {
+    this.snackBar.open(message, null, {
+      duration: 4200,
+      verticalPosition: "top",
+      horizontalPosition: "right",
+      panelClass: ['custom-snack-bar']
+    });
   }
 
   removePicture(picture: Pictures) {

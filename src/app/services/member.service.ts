@@ -87,18 +87,10 @@ export class MemberService {
         member.id = 1;
       }
       this.members.push(member);
-      this.snackBar.open(`New joiner: ${member.firstName} ${member.lastName} 🎉`, null, {
-        duration: 4200,
-        verticalPosition: "bottom",
-        horizontalPosition: "right"
-      });
+      this.openSnackBar(`New joiner: ${member.firstName} ${member.lastName} 🎉`);
       return true;
     } else {
-      this.snackBar.open("Missing Field !", null, {
-        duration: 4200,
-        verticalPosition: "bottom",
-        horizontalPosition: "right"
-      });
+      this.openSnackBar("Missing Field !");
       return false;
     }
   }
@@ -143,10 +135,15 @@ export class MemberService {
   }
 
   public raiseError(error: string): void {
-    this.snackBar.open(ERRORS_MESSAGE[error], null, {
+    this.openSnackBar(ERRORS_MESSAGE[error]);
+  }
+
+  private openSnackBar(message: string) {
+    this.snackBar.open(message, null, {
       duration: 4200,
-      verticalPosition: "bottom",
-      horizontalPosition: "right"
+      verticalPosition: "top",
+      horizontalPosition: "right",
+      panelClass: ['custom-snack-bar']
     });
   }
 }
