@@ -36,6 +36,7 @@ import { GroupCardComponent } from './components/group-card/group-card.component
 import { GroupDetailsComponent } from './components/group-details/group-details.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AreaCardComponent } from './components/area-card/area-card.component';
+import { MemberDetailsComponent } from './components/member-details/member-details.component';
 import { MemberEnrollmentComponent } from './components/member-enrollment/member-enrollment.component';
 import { CloudinaryModule } from '@cloudinary/angular-5.x';
 import * as  Cloudinary from 'cloudinary-core';
@@ -57,7 +58,7 @@ const appRoutes: Routes = [
     { path: '', redirectTo: '/members/list', pathMatch: 'full' },
     { path: 'list', component: MembersComponent },
     { path: 'enrollment', component: MemberEnrollmentComponent },
-    { path: ':id', component: MemberEnrollmentComponent },
+    { path: ':id', component: MemberDetailsComponent },
   ]},
   
   { path: 'groups', children: [
@@ -116,6 +117,7 @@ const appRoutes: Routes = [
     GroupDetailsComponent,
     AreaCardComponent,
     MemberEnrollmentComponent,
+    MemberDetailsComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]

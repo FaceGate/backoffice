@@ -1,6 +1,9 @@
-import {Injectable} from '@angular/core';
-import {Group} from '../class/group/group';
+import { Injectable } from '@angular/core';
+import { Group } from '../class/group/group';
 import { MatSnackBar } from '@angular/material';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -12,18 +15,21 @@ export class GroupService {
       id: 1,
       name: 'Developpers',
       isActive: true,
-      areas: [{id: 1, name: 'M1', isActive: true, doors: [{id: 1}]}]
+      areas: [{ id: 1, name: 'M1', isActive: true, doors: [{ id: 1 }] }]
     },
     {
       id: 2,
       name: 'RH',
       isActive: true,
-      areas: [{id: 2, name: 'M2', isActive: true, doors: [{id: 2}]}
+      areas: [{ id: 2, name: 'M2', isActive: true, doors: [{ id: 2 }] }
       ]
     }
   ];
 
-  constructor(private snackBar: MatSnackBar) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private http: HttpClient
+  ) {
   }
 
   public CheckGroupFields(group: Group): boolean {
@@ -33,29 +39,37 @@ export class GroupService {
     return true;
   }
 
-  getGroups() {
-    return this.groups;
+  getGroups(): Observable<any> {
+    return this.http.get(`/api/groups`)
+      .pipe(
+        catchError(error => {
+          console.error(error);
+          return Observable.throw(error);
+        })
+      );
   }
 
-  getGroup(id: number): Group {
-    //return object deep copy
-    return Object.create(this.groups.find(group => group.id === id));
+  getGroupsById(group_id: number): Observable<any> {
+    return this.http.get(`/api/groups/${group_id}`)
+      .pipe(
+        catchError(error => {
+          console.error(error);
+          return Observable.throw(error);
+        })
+      );
   }
 
-  addGroup(group: Group): boolean {
-    if (this.CheckGroupFields(group)) {
-      if (!group.id && this.groups.length > 0) {
-        group.id = this.groups[this.groups.length - 1].id + 1;
-      } else {
-        group.id = 1;
-      }
-      this.groups.push(group);
-      this.openSnackBar(`${group.name} created 🎉`);
-      return true;
-    } else {
-      this.openSnackBar("Missing Field !");
-      return false;
-    }
+  addGroup(group: Group): Observable<any> {
+    let area_ids: number[] = [];
+    group.areas.forEach(area => {
+      area_ids.push(area.id);
+    });
+    return this.http.post(`/api/groups`, { "name": group.name, "area_ids": area_ids })
+      .pipe(
+        catchError(error => {
+          return Observable.throw(error);
+        })
+      );
   }
 
   private openSnackBar(message: string) {

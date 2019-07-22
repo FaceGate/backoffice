@@ -6,7 +6,7 @@ import { GroupService } from '../../services/group.service';
 import { Observable } from 'rxjs';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { FormControl } from '@angular/forms';
-import { MatAutocomplete, MatChipInputEvent, MatAutocompleteSelectedEvent } from '@angular/material';
+import { MatAutocomplete, MatChipInputEvent, MatAutocompleteSelectedEvent, MatSnackBar } from '@angular/material';
 import { map, startWith } from 'rxjs/operators';
 import { Area } from '../../class/area/area';
 
@@ -33,20 +33,33 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private groupService: GroupService,
-    private areaService: AreaService
+    private areaService: AreaService,
+    private snackBar: MatSnackBar
   ) {
     this.sub = this.route.params.subscribe(params => {
       this.id = +params.id;
     });
-
-    this.filteredAreas = this.areaCtrl.valueChanges.pipe(
-      startWith(null),
-      map((name: string | null) => name ? this._filter(name) : this.allAreas.slice()));
+    this.areaService.getAreas().subscribe(
+      (res) => {
+        this.allAreas = res;
+        this.filteredAreas = this.areaCtrl.valueChanges.pipe(
+          startWith(null),
+          map((name: string | null) => name ? this._filter(name) : this.allAreas.slice())
+        );
+      }
+    )
   }
 
   ngOnInit() {
-    this.group = this.id ? this.groupService.getGroup(this.id) : new Group;
-    this.allAreas = this.areaService.getAreas();
+    if (this.id) {
+      this.groupService.getGroupsById(this.id).subscribe(
+        (res) => {
+          this.group = res;
+        }
+      );
+    } else {
+      this.group = new Group();
+    }
   }
 
   ngOnDestroy() {
@@ -93,15 +106,28 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
   }
 
   createGroup() {
-    if (this.groupService.addGroup(this.group)) {
-      this.router.navigate(["/groups"]);
-    } else {
-      console.error("Group creation failed !");
-    }
+    this.groupService.addGroup(this.group).subscribe(
+      () => {
+        this.openSnackBar(`New group: ${this.group.name} 🎉`);
+        this.router.navigate(["/groups"]);
+      },
+      (err) => {
+        console.error(err);
+      }
+    );
   }
 
   private _filter(value: string): Area[] {
     return this.allAreas.filter(area => area.name.toLowerCase().indexOf(value) === 0);
+  }
+
+  private openSnackBar(message: string) {
+    this.snackBar.open(message, null, {
+      duration: 4200,
+      verticalPosition: "top",
+      horizontalPosition: "right",
+      panelClass: ['custom-snack-bar']
+    });
   }
 
 }

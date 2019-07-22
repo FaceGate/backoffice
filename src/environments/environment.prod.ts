@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  cloud_name: 'qwerty',
+  upload_preset: '123456'
 };

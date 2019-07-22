@@ -5,20 +5,20 @@ import { FormControl } from '@angular/forms';
 import { startWith, map } from 'rxjs/operators';
 import { GroupService } from 'src/app/services/group.service';
 import { MatChipInputEvent, MatAutocompleteSelectedEvent, MatAutocomplete, MatSnackBar } from '@angular/material';
-import { Member } from 'src/app/class/member/member';
+import { Member, Pictures, MemberDetails, SimpleGroup } from 'src/app/class/member/member';
 import { MemberService } from 'src/app/services/member.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { CloudinaryService } from 'src/app/services/cloudinary.service';
 
 @Component({
-  selector: 'app-member-enrollment',
-  templateUrl: './member-enrollment.component.html',
-  styleUrls: ['./member-enrollment.component.scss']
+  selector: 'app-member-details',
+  templateUrl: './member-details.component.html',
+  styleUrls: ['./member-details.component.scss']
 })
-export class MemberEnrollmentComponent implements OnInit {
+export class MemberDetailsComponent implements OnInit {
 
-  member: Member;
+  member: MemberDetails;
   groupCtrl = new FormControl;
   separatorKeysCodes: number[] = [ENTER, COMMA];
   filteredGroups: Observable<Group[]>;
@@ -30,14 +30,19 @@ export class MemberEnrollmentComponent implements OnInit {
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
   public id: number;
+  private sub: any;
 
   constructor(
     private router: Router,
+    public route: ActivatedRoute,
     private memberService: MemberService,
     private groupService: GroupService,
     private cloudinaryService: CloudinaryService,
     private snackBar: MatSnackBar
   ) {
+    this.sub = this.route.params.subscribe(params => {
+      this.id = +params.id;
+    });
     this.groupService.getGroups().subscribe(
       (res) => {
         this.allGroups = res;
@@ -50,11 +55,15 @@ export class MemberEnrollmentComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.member = new Member();
-  }
-
-  getGroupNameById(id: number): string {
-    return this.allGroups.find(group => group.id === id).name;
+    if (this.id) {
+      this.memberService.getMember(this.id).subscribe(
+        (data) => {
+          this.member = data;
+        }
+      );
+    } else {
+      console.error("User id not found in url")
+    }
   }
 
   //auto-complete functions//
@@ -72,18 +81,18 @@ export class MemberEnrollmentComponent implements OnInit {
   }
 
   selectGroup(event: MatAutocompleteSelectedEvent): void {
-    if (!this.member.group_ids || this.member.group_ids.indexOf(event.option.value.id) === -1) {
-      this.member.group_ids.push(event.option.value.id);
+    if (!this.member.groups || this.member.groups.indexOf(event.option.value.id) === -1) {
+      this.member.groups.push(event.option.value);
     }
     this.groupInput.nativeElement.value = '';
     this.groupCtrl.setValue(null);
   }
 
-  removeGroup(id: number): void {
-    const index = this.member.group_ids.indexOf(id);
+  removeGroup(group: SimpleGroup): void {
+    const index = this.member.groups.indexOf(group);
 
     if (index >= 0) {
-      this.member.group_ids.splice(index, 1);
+      this.member.groups.splice(index, 1);
     }
   }
   /*
@@ -94,19 +103,7 @@ export class MemberEnrollmentComponent implements OnInit {
   ////////////////////////////
 
   checkFormValidity(): boolean {
-    return !this.memberService.checkMemberFields(this.member);
-  }
-
-  enrolMember(): void {
-    this.memberService.addMember(this.member).subscribe(
-      () => {
-        this.openSnackBar(`New joiner: ${this.member.first_name} ${this.member.last_name} 🎉`);
-        this.router.navigate(["/members"]);
-      },
-      (error) => {
-        this.openSnackBar(error);
-      }
-    );
+    return !this.memberService.checkMemberDetailsFields(this.member);
   }
 
   cropPicture(link: string): string {
@@ -115,6 +112,11 @@ export class MemberEnrollmentComponent implements OnInit {
     const dot_index = file_name.indexOf(".");
     const public_id = file_name.slice(0, dot_index);
     return this.cloudinaryService.faceCrop(public_id);
+  }
+
+  updateMember(): void {
+    this.memberService.updateMember(this.member);
+    this.router.navigate(["/members"]);
   }
 
   newPicture(file: FileList): void {
@@ -131,7 +133,7 @@ export class MemberEnrollmentComponent implements OnInit {
   }
 
   verifyPicture(public_id: string, image_url: string) {
-    this.memberService.verifyPicture(this.member.profile_pictures, image_url)
+    this.memberService.verifyUpdatedPicture(this.member.profile_pictures, image_url)
       .subscribe(
         (res) => {
           let isValid = true;
@@ -143,7 +145,8 @@ export class MemberEnrollmentComponent implements OnInit {
             }
           });
           if (isValid) {
-            this.member.profile_pictures = this.memberService.addPicture(this.member.profile_pictures, image_url);
+            //const display_url = this.cloudinaryService.faceCrop(public_id);
+            this.member.profile_pictures = this.memberService.updatePictures(this.member.profile_pictures, image_url);
             this.openSnackBar("New picture validated 👏🏼");
           }
           this.showLoader = false;
@@ -164,8 +167,8 @@ export class MemberEnrollmentComponent implements OnInit {
     });
   }
 
-  removePicture(picture: string) {
-    this.member.profile_pictures.splice(this.member.profile_pictures.indexOf(picture), 1)
+  removePicture(picture: Pictures) {
+    this.member.profile_pictures.splice(this.member.profile_pictures.indexOf(picture), 1);
   }
 
   private _filter(value: string): Group[] {

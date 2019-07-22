@@ -14,9 +14,10 @@ export class GroupsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.groups = this.groupService.getGroups();
-  }
-
-  createGroup() {
+    this.groupService.getGroups().subscribe(
+      (res) => {
+        this.groups = res;
+      }
+    );
   }
 }

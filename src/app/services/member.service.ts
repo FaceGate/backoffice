@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Member, Pictures } from '../class/member/member';
+import { Member, Pictures, MemberDetails } from '../class/member/member';
 import { MatSnackBar } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable, throwError, of } from 'rxjs';
+import { catchError, filter, map } from 'rxjs/operators';
 import { ERRORS_MESSAGE } from "../constants/errors";
 
 @Injectable({
@@ -13,105 +13,105 @@ export class MemberService {
   public member: Member;
   public members: Member[] = [];
 
+  public memberDetail: MemberDetails;
+  public memberDetails: MemberDetails[] = [];
+
   constructor(
     private snackBar: MatSnackBar,
     private http: HttpClient
-  ) {
-    //mock data
-    let fakeMember = new Member(
-      1,
-      "Mark",
-      "Zuckerberg",
-      new Date(),
-      [
-        {
-          id: 1,
-          url: "https://res.cloudinary.com/facegate/image/upload/v1559442621/mark2_jqncfd.jpg",
-          display_url: "http://res.cloudinary.com/facegate/image/upload/c_fill,g_face,h_250,w_250/mark2_jlylnz"
-        }
-      ],
-      true,
-      [
-        {
-          id: 1,
-          name: "Developpers",
-          isActive: true,
-          areas: [{
-            id: 1,
-            name: "M1",
-            isActive: true,
-            doors: [{
-              id: 1
-            }]
-          }]
-        }
-      ]);
+  ) { }
 
-    this.members.push(fakeMember);
-  }
-
-  public checkMemberFields(member: Member): boolean {
-    if (member.profilePictures.length === 0 || !member.firstName || !member.lastName || member.groups.length === 0 || !member.expirationDate) {
+  public checkMemberDetailsFields(member: MemberDetails): boolean {
+    if (member.profile_pictures.length === 0 || !member.first_name || !member.last_name || !member.groups || !member.expiration_date) {
       return false;
     }
     return true;
   }
 
-  public getMembers(): Member[] {
-    return this.members;
+  public checkMemberFields(member: Member): boolean {
+    if (member.profile_pictures.length === 0 || !member.first_name || !member.last_name || member.group_ids.length === 0 || !member.expiration_date) {
+      return false;
+    }
+    return true;
   }
 
-  public getMember(id: number): Member {
-    //return object deep copy
-    return Object.create(this.members.find(member => member.id === id));
-  }
-
-  public getMembersFromGroup(id: number): Member[] {
-    return this.getMembers().filter(
-      element => {
-        var found: boolean = false;
-        element.groups.forEach(group => {
-          if (group.id === id)
-            found = true;
+  public getMembers(): Observable<any> {
+    return this.http.get(`/api/users`)
+      .pipe(
+        catchError(error => {
+          console.error(error);
+          return Observable.throw(error);
         })
-        return found;
-      }
+      );
+  }
+
+  public getMembersDetails(): Observable<any> {
+    return this.http.get(`/api/users`)
+      .pipe(
+        catchError(error => {
+          console.error(error);
+          return Observable.throw(error);
+        })
+      );
+  }
+
+  public getMember(id: number): Observable<any> {
+    return this.http.get(`/api/users/${id}`)
+      .pipe(
+        catchError(error => {
+          console.error(error);
+          return Observable.throw(error);
+        })
+      );
+  }
+
+  public getMembersFromGroup(group_id: number): Observable<any> {
+    return this.getMembers().pipe(
+      filter(member => member.group_ids.indexOf(group_id) > -1),
+      map(member => member),
+      catchError(err => {
+        console.error(err);
+        return of([]);
+      })
     );
   }
 
-  public addMember(member: Member): boolean {
+  public addMember(member: Member): Observable<any> {
     if (this.checkMemberFields(member)) {
-      if (!member.id && this.members.length > 0) {
-        member.id = this.members[this.members.length - 1].id + 1;
-      } else {
-        member.id = 1;
-      }
-      this.members.push(member);
-      this.openSnackBar(`New joiner: ${member.firstName} ${member.lastName} 🎉`);
-      return true;
+      return this.http.post(`/api/users`, member)
+        .pipe(
+          catchError(error => {
+            console.error(error);
+            return Observable.throw(error);
+          })
+        );
     } else {
-      this.openSnackBar("Missing Field !");
-      return false;
+      return Observable.throw("Missing Field !");
     }
   }
 
-  public updateMember(member: Member): void {
-    if (this.checkMemberFields(member)) {
-      const index = this.members.findIndex(oldMember => oldMember.id === member.id);
-      this.members[index] = member;
+  public updateMember(member: MemberDetails): void {
+    if (this.checkMemberDetailsFields(member)) {
+      const index = this.memberDetails.indexOf(member);
+      //.findIndex(oldMember => oldMember.id === member.id);
+      this.memberDetails[index] = member;
     }
   }
 
-  public removeMember(member: Member): void {
-    const index = this.members.indexOf(member);
+  public removeMember(member: MemberDetails): void {
+    const index = this.memberDetails.indexOf(member);
     this.members.splice(index, 1);
   }
 
-  public addPicture(pictures: Pictures[], image_url: string, display_url?: string): Pictures[] {
+  public addPicture(pictures: string[], image_url: string): string[] {
+    pictures.push(image_url);
+    return pictures;
+  }
+
+  public updatePictures(pictures: Pictures[], image_url: string): Pictures[] {
     pictures.push({
       id: pictures.length,
-      url: image_url,
-      display_url: display_url || null
+      link: image_url
     });
     return pictures;
   }
@@ -121,8 +121,21 @@ export class MemberService {
     return pictures;
   }
 
-  public verifyPicture(pictures: Pictures[], image_url: string): Observable<any> {
-    let tmpImageUrls: string[] = pictures.map(pic => pic.url);
+  public verifyPicture(pictures: string[], image_url: string): Observable<any> {
+    //let tmpImageUrls: string[] = pictures.map(pic => pic.url);
+    //tmpImageUrls.push(image_url);
+    return this.http.post(`/api/verify`, { "image_urls": pictures })
+      .pipe(
+        catchError(error => {
+          let errMsg = (error.message) ? error.message : error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+          console.error(errMsg);
+          return Observable.throw(error);
+        })
+      );
+  }
+
+  public verifyUpdatedPicture(pictures: Pictures[], image_url: string): Observable<any> {
+    let tmpImageUrls: string[] = pictures.map(pic => pic.link);
     tmpImageUrls.push(image_url);
     return this.http.post(`/api/verify`, { "image_urls": tmpImageUrls })
       .pipe(
