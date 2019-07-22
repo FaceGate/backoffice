@@ -2,7 +2,7 @@ import {Component, OnInit, Input} from '@angular/core';
 import {Group} from '../../class/group/group';
 import {GroupService} from '../../services/group.service';
 import {MemberService} from '../../services/member.service';
-import {Member} from '../../class/member/member';
+import {Member, MemberDetails} from '../../class/member/member';
 
 @Component({
   selector: 'app-group-card',
@@ -10,14 +10,26 @@ import {Member} from '../../class/member/member';
   styleUrls: ['./group-card.component.scss']
 })
 export class GroupCardComponent implements OnInit {
-  members: Member[];
+  members: MemberDetails[];
   @Input() group: Group;
 
   constructor(private groupService: GroupService, private memberService: MemberService) {
   }
 
   ngOnInit() {
-    this.members = this.memberService.getMembersFromGroup(this.group.id);
+    this.memberService.getMembers().subscribe(
+      (res) => {
+        this.members = res.filter(member => member.group_ids.indexOf(this.group.id) > -1);
+      }
+    );
+    
+    /*
+    (this.group.id).subscribe(
+      (res) => {
+        this.members = res;
+      }
+    );
+    */
   }
 
   updateGroup(group: Group) {

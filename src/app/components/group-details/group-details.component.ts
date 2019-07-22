@@ -45,7 +45,15 @@ export class GroupDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.group = this.id ? this.groupService.getGroup(this.id) : new Group;
+    if (this.id) {
+      this.groupService.getGroupsById(this.id).subscribe(
+        (res) => {
+          this.group = res;
+        }
+      );
+    } else {
+      this.group = new Group();
+    }
     this.allAreas = this.areaService.getAreas();
   }
 

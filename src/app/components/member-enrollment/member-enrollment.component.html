@@ -50,7 +50,7 @@
         <mat-chip-list #chipList>
           <mat-chip *ngFor="let id of member.group_ids" [selectable]="true" [removable]="true"
             (removed)="removeGroup(id)">
-            {{ getGroupNameById(id) }}
+            id
             <mat-icon matChipRemove>cancel</mat-icon>
           </mat-chip>
           <input placeholder="Add Group ..." #groupInput [formControl]="groupCtrl" [matAutocomplete]="auto"

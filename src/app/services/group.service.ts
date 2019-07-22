@@ -1,6 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Group} from '../class/group/group';
 import { MatSnackBar } from '@angular/material';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +26,10 @@ export class GroupService {
     }
   ];
 
-  constructor(private snackBar: MatSnackBar) {
+  constructor(
+    private snackBar: MatSnackBar,
+    private http: HttpClient
+  ) {
   }
 
   public CheckGroupFields(group: Group): boolean {
@@ -33,13 +39,24 @@ export class GroupService {
     return true;
   }
 
-  getGroups() {
-    return this.groups;
+  getGroups(): Observable<any> {
+    return this.http.get(`/api/groups`)
+    .pipe(
+      catchError(error => {
+        console.error(error);
+        return Observable.throw(error);
+      })
+    );
   }
 
-  getGroup(id: number): Group {
-    //return object deep copy
-    return Object.create(this.groups.find(group => group.id === id));
+  getGroupsById(group_id: number): Observable<any> {
+    return this.http.get(`/api/groups/${group_id}`)
+    .pipe(
+      catchError(error => {
+        console.error(error);
+        return Observable.throw(error);
+      })
+    );
   }
 
   addGroup(group: Group): boolean {

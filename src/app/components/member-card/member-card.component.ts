@@ -29,8 +29,10 @@ export class MemberCardComponent implements OnInit {
   addMember(member: Member) {
     this.memberService.addMember(member);
   }
-
-  getGroupNameById(id: number): string {
-    return this.groupService.getGroup(id).name;
+  /*
+  getGroupNameById(id: number) {
+    return this.groupService.getGroupsById(id);
+    //return this.groupService.getGroup(id).name;
   }
+  */
 }

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Member, Pictures, MemberDetails } from '../class/member/member';
 import { MatSnackBar } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable, throwError, of } from 'rxjs';
+import { catchError, filter, map } from 'rxjs/operators';
 import { ERRORS_MESSAGE } from "../constants/errors";
 
 @Injectable({
@@ -65,15 +65,14 @@ export class MemberService {
       );
   }
 
-  public getMembersFromGroup(group_id: number): any {
-    return this.getMembers().subscribe(
-      (data) => {
-        return data.filter(
-          element => {
-            return element.group_id.indexOf(group_id) > -1;
-          }
-        )
-      }
+  public getMembersFromGroup(group_id: number): Observable<any> {
+    return this.getMembers().pipe(
+      filter(member => member.group_ids.indexOf(group_id) > -1),
+      map(member => member),
+      catchError(err => {
+        console.error(err);
+        return of([]);
+      })
     );
   }
 

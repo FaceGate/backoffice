@@ -22,7 +22,7 @@ export class MemberDetailsComponent implements OnInit {
   groupCtrl = new FormControl;
   separatorKeysCodes: number[] = [ENTER, COMMA];
   filteredGroups: Observable<Group[]>;
-  allGroups: Group[];
+  allGroups: Group[] = [];
   formValidity: boolean;
   showLoader = false;
 
@@ -55,11 +55,15 @@ export class MemberDetailsComponent implements OnInit {
         (data) => {
           this.member = data;
         }
-      )
+      );
     } else {
       console.error("User id not found in url")
     }
-    this.allGroups = this.groupService.getGroups();
+    this.groupService.getGroups().subscribe(
+      (res) => {
+        this.allGroups = res;
+      }
+    );
   }
 
   //auto-complete functions//
@@ -91,10 +95,11 @@ export class MemberDetailsComponent implements OnInit {
       this.member.group_ids.splice(index, 1);
     }
   }
-
-  getGroupNameById(id: number): string {
-    return this.groupService.getGroup(id).name;
+  /*
+  getGroupNameById(id: number): Observable<any> {
+    return this.groupService.getGroupsById(id);
   }
+  */
   ////////////////////////////
 
   checkFormValidity(): boolean {

@@ -22,7 +22,7 @@ export class MemberEnrollmentComponent implements OnInit {
   groupCtrl = new FormControl;
   separatorKeysCodes: number[] = [ENTER, COMMA];
   filteredGroups: Observable<Group[]>;
-  allGroups: Group[];
+  allGroups: Group[] = [];
   formValidity: boolean;
   showLoader = false;
 
@@ -40,12 +40,17 @@ export class MemberEnrollmentComponent implements OnInit {
   ) {
     this.filteredGroups = this.groupCtrl.valueChanges.pipe(
       startWith(null),
-      map((name: string | null) => name ? this._filter(name) : this.allGroups.slice()));
+      map((name: string | null) => name ? this._filter(name) : this.allGroups.slice())
+    );
   }
 
   ngOnInit() {
-    this.member = new Member;
-    this.allGroups = this.groupService.getGroups();
+    this.member = new Member();
+    this.groupService.getGroups().subscribe(
+      (res) => {
+        this.allGroups = res;
+      }
+    );
   }
 
   //auto-complete functions//
@@ -77,10 +82,11 @@ export class MemberEnrollmentComponent implements OnInit {
       this.member.group_ids.splice(index, 1);
     }
   }
-
-  getGroupNameById(id: number): string {
-    return this.groupService.getGroup(id).name;
+  /*
+  getGroupNameById(id: number): Observable<any> {
+    return this.groupService.getGroupsById(id);
   }
+  */
   ////////////////////////////
 
   checkFormValidity(): boolean {
