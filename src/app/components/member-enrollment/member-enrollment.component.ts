@@ -99,10 +99,12 @@ export class MemberEnrollmentComponent implements OnInit {
     );
   }
 
+  /*
   updateMember(): void {
     this.memberService.updateMember(this.member);
     this.router.navigate(["/members"]);
   }
+  */
 
   newPicture(file: FileList): void {
     if (file && file.length > 0) {

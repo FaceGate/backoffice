@@ -5,7 +5,7 @@ import { FormControl } from '@angular/forms';
 import { startWith, map } from 'rxjs/operators';
 import { GroupService } from 'src/app/services/group.service';
 import { MatChipInputEvent, MatAutocompleteSelectedEvent, MatAutocomplete, MatSnackBar } from '@angular/material';
-import { Member, Pictures } from 'src/app/class/member/member';
+import { Member, Pictures, MemberDetails } from 'src/app/class/member/member';
 import { MemberService } from 'src/app/services/member.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
@@ -18,7 +18,7 @@ import { CloudinaryService } from 'src/app/services/cloudinary.service';
 })
 export class MemberDetailsComponent implements OnInit {
 
-  member: Member;
+  member: MemberDetails;
   groupCtrl = new FormControl;
   separatorKeysCodes: number[] = [ENTER, COMMA];
   filteredGroups: Observable<Group[]>;
@@ -101,6 +101,7 @@ export class MemberDetailsComponent implements OnInit {
     return !this.memberService.checkMemberDetailsFields(this.member);
   }
 
+  /*
   enrolMember(): void {
     this.memberService.addMember(this.member).subscribe(
       () => {
@@ -112,6 +113,7 @@ export class MemberDetailsComponent implements OnInit {
       }
     );
   }
+  */
 
   updateMember(): void {
     this.memberService.updateMember(this.member);
@@ -132,7 +134,7 @@ export class MemberDetailsComponent implements OnInit {
   }
 
   verifyPicture(public_id: string, image_url: string) {
-    this.memberService.verifyPicture(this.member.profile_pictures, image_url)
+    this.memberService.verifyUpdatedPicture(this.member.profile_pictures, image_url)
       .subscribe(
         (res) => {
           let isValid = true;
@@ -145,7 +147,7 @@ export class MemberDetailsComponent implements OnInit {
           });
           if (isValid) {
             //const display_url = this.cloudinaryService.faceCrop(public_id);
-            this.member.profile_pictures = this.memberService.addPicture(this.member.profile_pictures, image_url);
+            this.member.profile_pictures = this.memberService.updatePictures(this.member.profile_pictures, image_url);
             this.openSnackBar("New picture validated 👏🏼");
           }
           this.showLoader = false;
@@ -166,8 +168,8 @@ export class MemberDetailsComponent implements OnInit {
     });
   }
 
-  removePicture(picture: string) {
-    this.member.profile_pictures.splice(this.member.profile_pictures.indexOf(picture), 1)
+  removePicture(picture: Pictures) {
+    this.member.profile_pictures.splice(this.member.profile_pictures.indexOf(picture), 1);
   }
 
   private _filter(value: string): Group[] {

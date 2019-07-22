@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Member, Pictures } from '../class/member/member';
+import { Member, Pictures, MemberDetails } from '../class/member/member';
 import { MatSnackBar } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
@@ -13,12 +13,15 @@ export class MemberService {
   public member: Member;
   public members: Member[] = [];
 
+  public memberDetail: MemberDetails;
+  public memberDetails: MemberDetails[] = [];
+
   constructor(
     private snackBar: MatSnackBar,
     private http: HttpClient
-  ) {}
+  ) { }
 
-  public checkMemberDetailsFields(member: Member): boolean {
+  public checkMemberDetailsFields(member: MemberDetails): boolean {
     if (member.profile_pictures.length === 0 || !member.first_name || !member.last_name || member.group_ids.length === 0 || !member.expiration_date) {
       return false;
     }
@@ -42,14 +45,24 @@ export class MemberService {
       );
   }
 
+  public getMembersDetails(): Observable<any> {
+    return this.http.get(`/api/users`)
+      .pipe(
+        catchError(error => {
+          console.error(error);
+          return Observable.throw(error);
+        })
+      );
+  }
+
   public getMember(id: number): Observable<any> {
     return this.http.get(`/api/users/${id}`)
-    .pipe(
-      catchError(error => {
-        console.error(error);
-        return Observable.throw(error);
-      })
-    );
+      .pipe(
+        catchError(error => {
+          console.error(error);
+          return Observable.throw(error);
+        })
+      );
   }
 
   public getMembersFromGroup(group_id: number): any {
@@ -78,10 +91,11 @@ export class MemberService {
     }
   }
 
-  public updateMember(member: Member): void {
-    if (this.checkMemberFields(member)) {
-      const index = this.members.findIndex(oldMember => oldMember.id === member.id);
-      this.members[index] = member;
+  public updateMember(member: MemberDetails): void {
+    if (this.checkMemberDetailsFields(member)) {
+      const index = this.memberDetails.indexOf(member);
+      //.findIndex(oldMember => oldMember.id === member.id);
+      this.memberDetails[index] = member;
     }
   }
 
@@ -95,6 +109,14 @@ export class MemberService {
     return pictures;
   }
 
+  public updatePictures(pictures: Pictures[], image_url: string): Pictures[] {
+    pictures.push({
+      id: pictures.length,
+      link: image_url
+    });
+    return pictures;
+  }
+
   //TODO: use when database
   public removePicure(pictures: Pictures[], picture: Pictures): Pictures[] {
     return pictures;
@@ -104,6 +126,19 @@ export class MemberService {
     //let tmpImageUrls: string[] = pictures.map(pic => pic.url);
     //tmpImageUrls.push(image_url);
     return this.http.post(`/api/verify`, { "image_urls": pictures })
+      .pipe(
+        catchError(error => {
+          let errMsg = (error.message) ? error.message : error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+          console.error(errMsg);
+          return Observable.throw(error);
+        })
+      );
+  }
+
+  public verifyUpdatedPicture(pictures: Pictures[], image_url: string): Observable<any> {
+    let tmpImageUrls: string[] = pictures.map(pic => pic.link);
+    tmpImageUrls.push(image_url);
+    return this.http.post(`/api/verify`, { "image_urls": tmpImageUrls })
       .pipe(
         catchError(error => {
           let errMsg = (error.message) ? error.message : error.status ? `${error.status} - ${error.statusText}` : 'Server error';

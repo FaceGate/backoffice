@@ -1,6 +1,6 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {MemberService} from '../../services/member.service';
-import {Member} from '../../class/member/member';
+import {Member, MemberDetails} from '../../class/member/member';
 import { GroupService } from 'src/app/services/group.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { GroupService } from 'src/app/services/group.service';
 })
 export class MemberCardComponent implements OnInit {
 
-  @Input() member: Member;
+  @Input() member: MemberDetails;
 
   constructor(private memberService: MemberService, private groupService: GroupService) {
   }
@@ -18,7 +18,7 @@ export class MemberCardComponent implements OnInit {
   ngOnInit() {
   }
 
-  updateMember(member: Member) {
+  updateMember(member: MemberDetails) {
     this.memberService.updateMember(member);
   }
 
