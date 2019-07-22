@@ -5,18 +5,18 @@ import { FormControl } from '@angular/forms';
 import { startWith, map } from 'rxjs/operators';
 import { GroupService } from 'src/app/services/group.service';
 import { MatChipInputEvent, MatAutocompleteSelectedEvent, MatAutocomplete, MatSnackBar } from '@angular/material';
-import { Member } from 'src/app/class/member/member';
+import { Member, Pictures } from 'src/app/class/member/member';
 import { MemberService } from 'src/app/services/member.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { CloudinaryService } from 'src/app/services/cloudinary.service';
 
 @Component({
-  selector: 'app-member-enrollment',
-  templateUrl: './member-enrollment.component.html',
-  styleUrls: ['./member-enrollment.component.scss']
+  selector: 'app-member-details',
+  templateUrl: './member-details.component.html',
+  styleUrls: ['./member-details.component.scss']
 })
-export class MemberEnrollmentComponent implements OnInit {
+export class MemberDetailsComponent implements OnInit {
 
   member: Member;
   groupCtrl = new FormControl;
@@ -30,21 +30,35 @@ export class MemberEnrollmentComponent implements OnInit {
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
   public id: number;
+  private sub: any;
 
   constructor(
     private router: Router,
+    public route: ActivatedRoute,
     private memberService: MemberService,
     private groupService: GroupService,
     private cloudinaryService: CloudinaryService,
     private snackBar: MatSnackBar
   ) {
+    this.sub = this.route.params.subscribe(params => {
+      this.id = +params.id;
+    });
+
     this.filteredGroups = this.groupCtrl.valueChanges.pipe(
       startWith(null),
       map((name: string | null) => name ? this._filter(name) : this.allGroups.slice()));
   }
 
   ngOnInit() {
-    this.member = new Member;
+    if (this.id) {
+      this.memberService.getMember(this.id).subscribe(
+        (data) => {
+          this.member = data;
+        }
+      )
+    } else {
+      console.error("User id not found in url")
+    }
     this.allGroups = this.groupService.getGroups();
   }
 
@@ -84,7 +98,7 @@ export class MemberEnrollmentComponent implements OnInit {
   ////////////////////////////
 
   checkFormValidity(): boolean {
-    return !this.memberService.checkMemberFields(this.member);
+    return !this.memberService.checkMemberDetailsFields(this.member);
   }
 
   enrolMember(): void {

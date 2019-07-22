@@ -4,7 +4,7 @@
       {{ group.name }}
       <ul class="avatar-list" dense>
         <li class="avatar" *ngFor="let member of members | slice:0:3">
-          <img alt="profile_picture" [src]="member.profilePictures[0].url"/>
+          <img alt="profile_picture" [src]="member.profile_pictures[0]"/>
         </li>
         <li class="avatar-number" *ngIf="members.length > 3">+{{members.length - 3}}</li>
       </ul>

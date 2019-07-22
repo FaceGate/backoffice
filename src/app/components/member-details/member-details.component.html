@@ -13,14 +13,14 @@
 
       <div class="upload-container">
 
-        <div *ngIf="!member.profile_pictures.length" class="upload-picture">
+        <div *ngIf="!member.profile_pictures" class="upload-picture">
           <img src="../../../assets/file-upload.png" height="auto" width="250px" />
         </div>
 
-        <div *ngIf="member.profile_pictures.length" class="member-preview-container">
+        <div *ngIf="member.profile_pictures" class="member-preview-container">
 
           <mat-card class="card-preview" *ngFor="let picture of member.profile_pictures">
-            <img mat-card-image [src]="picture" alt="photos">
+            <img mat-card-image [src]="picture.link" alt="photos">
             <mat-card-actions>
               <button mat-button (click)="removePicture(picture)" color="warn">
                 <mat-icon aria-label="delete picture">delete</mat-icon>
@@ -70,7 +70,7 @@
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
 
-      <button mat-stroked-button color="primary" (click)="enrolMember()" [disabled]="checkFormValidity()">Validate enrollment</button>
+      <button mat-stroked-button color="primary" (click)="updateMember()" *ngIf="id" [disabled]="checkFormValidity()">Save</button>
     </div>
   </div>
 

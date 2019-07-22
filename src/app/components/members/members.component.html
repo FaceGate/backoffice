@@ -1,4 +1,4 @@
-<div id="content-wrapper">
+<div id="content-wrapper" *ngIf="members">
     <section *ngIf="members.length > 0" class="cards">
         <app-member-card *ngFor="let member of members" [member]="member"></app-member-card>
     </section>

@@ -8,29 +8,29 @@ export interface Pictures {
 
 export class Member {
   id: number;
-  firstName: string;
-  lastName: string;
-  expirationDate: Date;
-  profilePictures: Pictures[];
-  isActive: boolean;
-  groups: Group[];
+  first_name: string;
+  last_name: string;
+  expiration_date: Date;
+  profile_pictures: string[];
+  is_activated: boolean;
+  group_ids: number[];
 
 
   constructor(
     id?: number,
-    firstName?: string,
-    lastName?: string,
-    expirationDate?: Date,
-    profilePictures?: Pictures[],
-    isActive?: boolean,
-    groups?: Group[]) {
+    first_name?: string,
+    last_name?: string,
+    expiration_date?: Date,
+    profile_pictures?: string[],
+    is_activated?: boolean,
+    group_ids?: number[]) {
     //TODO REMOVE WHEN BACK-END IMPLEMENTED
     this.id = id || null;
-    this.firstName = firstName || null;
-    this.lastName = lastName || null;
-    this.expirationDate = expirationDate || null;
-    this.profilePictures = profilePictures || [];
-    this.isActive = isActive || true;
-    this.groups = groups || [];
+    this.first_name = first_name || null;
+    this.last_name = last_name || null;
+    this.expiration_date = expiration_date || null;
+    this.profile_pictures = profile_pictures || [];
+    this.is_activated = is_activated || true;
+    this.group_ids = group_ids || [];
   }
 }

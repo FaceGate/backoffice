@@ -1,11 +1,11 @@
 <mat-card class="example-card">
   <mat-card-header>
-    <img mat-card-avatar src="{{member.profilePictures[0].url}}">
-    <mat-card-title>{{ member.firstName }} {{ member.lastName }}</mat-card-title>
+    <img mat-card-avatar src="{{member.profile_pictures[0].link}}">
+    <mat-card-title>{{ member.first_name }} {{ member.last_name }}</mat-card-title>
     <mat-card-subtitle>
       <mat-chip-list>
-        <mat-chip *ngFor="let group of member.groups">
-          {{group.name}}
+        <mat-chip *ngFor="let id of member.group_ids">
+          {{ getGroupNameById(id) }}
         </mat-chip>
       </mat-chip-list>
     </mat-card-subtitle>
@@ -16,7 +16,7 @@
       <button mat-stroked-button color="primary" (click)="removeMember(member)">Remove</button>
     </div>
     <div>
-      <mat-slide-toggle color="primary" [(ngModel)]="member.isActive" (click)="updateMember(member)"></mat-slide-toggle>
+      <mat-slide-toggle color="primary" [(ngModel)]="member.is_activated" (click)="updateMember(member)"></mat-slide-toggle>
     </div>
   </mat-card-actions>
 </mat-card>
