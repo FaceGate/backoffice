@@ -12,7 +12,7 @@
     <mat-card-subtitle>
       <mat-chip-list>
         <mat-chip *ngFor="let area of group.areas">
-          {{area.name}}
+          {{ area.name }}
         </mat-chip>
       </mat-chip-list>
     </mat-card-subtitle>
@@ -23,7 +23,6 @@
       <button mat-stroked-button color="primary" (click)="removeGroup(group)">Remove</button>
     </div>
     <div>
-      <mat-slide-toggle color="primary" [(ngModel)]="group.isActive" (click)="updateGroup(group)"></mat-slide-toggle>
     </div>
   </mat-card-actions>
 </mat-card>

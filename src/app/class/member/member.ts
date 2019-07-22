@@ -6,6 +6,11 @@ export interface Pictures {
   display_url?: string;
 }
 
+export interface SimpleGroup {
+  id: number,
+  name: string
+}
+
 export class Member {
   id: number;
   first_name: string;
@@ -42,7 +47,7 @@ export class MemberDetails {
   expiration_date: Date;
   profile_pictures: Pictures[];
   is_activated: boolean;
-  group_ids: number[];
+  groups: SimpleGroup[];
 
 
   constructor(
@@ -52,7 +57,7 @@ export class MemberDetails {
     expiration_date?: Date,
     profile_pictures?: Pictures[],
     is_activated?: boolean,
-    group_ids?: number[]) {
+    groups?: SimpleGroup[]) {
     //TODO REMOVE WHEN BACK-END IMPLEMENTED
     this.id = id || null;
     this.first_name = first_name || null;
@@ -60,6 +65,6 @@ export class MemberDetails {
     this.expiration_date = expiration_date || null;
     this.profile_pictures = profile_pictures || [];
     this.is_activated = is_activated || true;
-    this.group_ids = group_ids || [];
+    this.groups = groups || [];
   }
 }

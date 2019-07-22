@@ -22,7 +22,7 @@ export class MemberService {
   ) { }
 
   public checkMemberDetailsFields(member: MemberDetails): boolean {
-    if (member.profile_pictures.length === 0 || !member.first_name || !member.last_name || member.group_ids.length === 0 || !member.expiration_date) {
+    if (member.profile_pictures.length === 0 || !member.first_name || !member.last_name || !member.groups || !member.expiration_date) {
       return false;
     }
     return true;
@@ -98,8 +98,8 @@ export class MemberService {
     }
   }
 
-  public removeMember(member: Member): void {
-    const index = this.members.indexOf(member);
+  public removeMember(member: MemberDetails): void {
+    const index = this.memberDetails.indexOf(member);
     this.members.splice(index, 1);
   }
 

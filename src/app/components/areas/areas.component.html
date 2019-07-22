@@ -1,10 +1,10 @@
-<div id="content-wrapper" *ngIf="areas.length">
+<div id="content-wrapper" *ngIf="areas">
   <section class="cards">
     <app-area-card *ngFor="let area of areas" [area]="area"></app-area-card>
   </section>
 </div>
 
-<div id="empty-state-wrapper" *ngIf="!areas.length">
+<div id="empty-state-wrapper" *ngIf="!areas">
   <mat-card class="example-card">
     <mat-card-header>
       <mat-card-title class="group-card-title">

@@ -1,25 +1,36 @@
-import {Injectable} from '@angular/core';
-import {Area} from '../class/area/area';
+import { Injectable } from '@angular/core';
+import { Area } from '../class/area/area';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AreaService {
-  areas: Area[] = [
-    {id: 1, name: 'M1', isActive: true, doors: [{id: 1}]},
-    {id: 2, name: 'M2', isActive: true, doors: [{id: 2}]},
-    {id: 3, name: 'M3', isActive: true, doors: [{id: 3}]}
-  ];
+  areas: Area[] = [];
 
-  constructor() {
+  constructor(private http: HttpClient) {
   }
 
-  getAreas() {
-    return this.areas;
+  getAreas(): Observable<any> {
+    return this.http.get(`/api/areas`)
+      .pipe(
+        catchError(error => {
+          console.error(error);
+          return Observable.throw(error);
+        })
+      );
   }
 
-  getArea(id: number): Area {
-    return this.areas.find(area => area.id === id);
+  getArea(id: number): Observable<any> {
+    return this.http.get(`/api/areas/${id}`)
+      .pipe(
+        catchError(error => {
+          console.error(error);
+          return Observable.throw(error);
+        })
+      );
   }
 
   updateArea(area: Area): void {

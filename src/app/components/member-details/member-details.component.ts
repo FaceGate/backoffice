@@ -5,7 +5,7 @@ import { FormControl } from '@angular/forms';
 import { startWith, map } from 'rxjs/operators';
 import { GroupService } from 'src/app/services/group.service';
 import { MatChipInputEvent, MatAutocompleteSelectedEvent, MatAutocomplete, MatSnackBar } from '@angular/material';
-import { Member, Pictures, MemberDetails } from 'src/app/class/member/member';
+import { Member, Pictures, MemberDetails, SimpleGroup } from 'src/app/class/member/member';
 import { MemberService } from 'src/app/services/member.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
@@ -43,10 +43,15 @@ export class MemberDetailsComponent implements OnInit {
     this.sub = this.route.params.subscribe(params => {
       this.id = +params.id;
     });
-
-    this.filteredGroups = this.groupCtrl.valueChanges.pipe(
-      startWith(null),
-      map((name: string | null) => name ? this._filter(name) : this.allGroups.slice()));
+    this.groupService.getGroups().subscribe(
+      (res) => {
+        this.allGroups = res;
+        this.filteredGroups = this.groupCtrl.valueChanges.pipe(
+          startWith(null),
+          map((name: string | null) => name ? this._filter(name) : this.allGroups.slice())
+        );
+      }
+    );
   }
 
   ngOnInit() {
@@ -59,11 +64,6 @@ export class MemberDetailsComponent implements OnInit {
     } else {
       console.error("User id not found in url")
     }
-    this.groupService.getGroups().subscribe(
-      (res) => {
-        this.allGroups = res;
-      }
-    );
   }
 
   //auto-complete functions//
@@ -81,18 +81,18 @@ export class MemberDetailsComponent implements OnInit {
   }
 
   selectGroup(event: MatAutocompleteSelectedEvent): void {
-    if (!this.member.group_ids || this.member.group_ids.indexOf(event.option.value.id) === -1) {
-      this.member.group_ids.push(event.option.value.id);
+    if (!this.member.groups || this.member.groups.indexOf(event.option.value.id) === -1) {
+      this.member.groups.push(event.option.value);
     }
     this.groupInput.nativeElement.value = '';
     this.groupCtrl.setValue(null);
   }
 
-  removeGroup(id: number): void {
-    const index = this.member.group_ids.indexOf(id);
+  removeGroup(group: SimpleGroup): void {
+    const index = this.member.groups.indexOf(group);
 
     if (index >= 0) {
-      this.member.group_ids.splice(index, 1);
+      this.member.groups.splice(index, 1);
     }
   }
   /*
@@ -106,19 +106,13 @@ export class MemberDetailsComponent implements OnInit {
     return !this.memberService.checkMemberDetailsFields(this.member);
   }
 
-  /*
-  enrolMember(): void {
-    this.memberService.addMember(this.member).subscribe(
-      () => {
-        this.openSnackBar(`New joiner: ${this.member.first_name} ${this.member.last_name} 🎉`);
-        this.router.navigate(["/members"]);
-      },
-      (error) => {
-        this.openSnackBar(error);
-      }
-    );
+  cropPicture(link: string): string {
+    const arr = link.split('/');
+    const file_name = arr[arr.length - 1];
+    const dot_index = file_name.indexOf(".");
+    const public_id = file_name.slice(0, dot_index);
+    return this.cloudinaryService.faceCrop(public_id);
   }
-  */
 
   updateMember(): void {
     this.memberService.updateMember(this.member);

@@ -14,7 +14,11 @@ export class AreasComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.areas = this.areaService.getAreas();
+    this.areaService.getAreas().subscribe(
+      (res) => {
+        this.areas = res;
+      }
+    )
   }
 
 }

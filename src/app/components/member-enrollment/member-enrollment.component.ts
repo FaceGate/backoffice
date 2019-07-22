@@ -38,19 +38,23 @@ export class MemberEnrollmentComponent implements OnInit {
     private cloudinaryService: CloudinaryService,
     private snackBar: MatSnackBar
   ) {
-    this.filteredGroups = this.groupCtrl.valueChanges.pipe(
-      startWith(null),
-      map((name: string | null) => name ? this._filter(name) : this.allGroups.slice())
+    this.groupService.getGroups().subscribe(
+      (res) => {
+        this.allGroups = res;
+        this.filteredGroups = this.groupCtrl.valueChanges.pipe(
+          startWith(null),
+          map((name: string | null) => name ? this._filter(name) : this.allGroups.slice())
+        );
+      }
     );
   }
 
   ngOnInit() {
     this.member = new Member();
-    this.groupService.getGroups().subscribe(
-      (res) => {
-        this.allGroups = res;
-      }
-    );
+  }
+
+  getGroupNameById(id: number): string {
+    return this.allGroups.find(group => group.id === id).name;
   }
 
   //auto-complete functions//
@@ -105,12 +109,13 @@ export class MemberEnrollmentComponent implements OnInit {
     );
   }
 
-  /*
-  updateMember(): void {
-    this.memberService.updateMember(this.member);
-    this.router.navigate(["/members"]);
+  cropPicture(link: string): string {
+    const arr = link.split('/');
+    const file_name = arr[arr.length - 1];
+    const dot_index = file_name.indexOf(".");
+    const public_id = file_name.slice(0, dot_index);
+    return this.cloudinaryService.faceCrop(public_id);
   }
-  */
 
   newPicture(file: FileList): void {
     if (file && file.length > 0) {
@@ -138,7 +143,6 @@ export class MemberEnrollmentComponent implements OnInit {
             }
           });
           if (isValid) {
-            //const display_url = this.cloudinaryService.faceCrop(public_id);
             this.member.profile_pictures = this.memberService.addPicture(this.member.profile_pictures, image_url);
             this.openSnackBar("New picture validated 👏🏼");
           }

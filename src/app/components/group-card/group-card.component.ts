@@ -19,19 +19,16 @@ export class GroupCardComponent implements OnInit {
   ngOnInit() {
     this.memberService.getMembers().subscribe(
       (res) => {
-        this.members = res.filter(member => member.group_ids.indexOf(this.group.id) > -1);
+        this.members = res.filter(member => member.groups.find(group => group.id === this.group.id));
       }
     );
-    
-    /*
-    (this.group.id).subscribe(
-      (res) => {
-        this.members = res;
-      }
-    );
-    */
   }
 
+  addGroup(group: Group) {
+    this.groupService.addGroup(group);
+  }
+
+  // mock function
   updateGroup(group: Group) {
     this.groupService.updateGroup(group);
   }
@@ -39,9 +36,4 @@ export class GroupCardComponent implements OnInit {
   removeGroup(group: Group) {
     this.groupService.removeGroup(group);
   }
-
-  addGroup(group: Group) {
-    this.groupService.addGroup(group);
-  }
-
 }
